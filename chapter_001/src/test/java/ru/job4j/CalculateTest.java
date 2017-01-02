@@ -7,7 +7,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 /**
- * Test
+ * Test.
  *
  * @author vryazanov
  * @since 28.12.2016
@@ -15,9 +15,8 @@ import static org.junit.Assert.assertThat;
  */
 
 public class CalculateTest {
-	
 		/**
-		 * Test add
+		 * Test add.
 		 */
 		 @Test
 		public void whenAddOneToOneThenTwo() {
