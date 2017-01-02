@@ -1,7 +1,7 @@
 <project>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>chapter_001</groupId>
-	<artifactId>vryazanov</artifactId>
+	<artifactId>chapter_001</artifactId>
 	<version>2.0</version>
 	<packaging>jar</packaging>
    	<parent>
