@@ -22,12 +22,12 @@ import static org.junit.Assert.assertThat;
 			assertThat(result, is(3));
 		}
 		/**
-		 * Test max when first equal second.
+		 * Test max when first equal second and third is greater.
 		 */
 		@Test
-		public void whenFindMaxOfThreeAndThreeThenShouldReurnThree() {
+		public void whenFindMaxOfThreeThreeFiveThenShouldReurnFive() {
 			final Max maxClass = new Max();
-			final int result = maxClass.max(3, 3);
-			assertThat(result, is(3));
+			final int result = maxClass.max(3, 3, 5);
+			assertThat(result, is(5));
 		}
  }

@@ -8,12 +8,22 @@ package ru.job4j;
  */
 public class Max {
 	/**
-	 * Calculate maxinum of two numbers..
+	 * Calculate maximum of two numbers..
 	 * @param first First number
-	 * @param second First number
+	 * @param second Second number
 	 * @return maximum
 	 */
 	public int max(int first, int second) {
 		return first >= second ? first : second;
+	}
+	/**
+	 * Calculate maxinum of three numbers..
+	 * @param first First number
+	 * @param second Second number
+	 * @param third Third number
+	 * @return maximum
+	 */
+	public int max(int first, int second, int third) {
+		return max(max(first, second), third);
 	}
 }
