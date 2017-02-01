@@ -8,12 +8,12 @@ package ru.job4j;
  */
 
 public class Calculate {
-		/**
-		 * Main.
-		 * @param args - arg
-		 */
-		public static void main(String[] args) {
+	/**
+	 * Main.
+	 * @param args - arg
+	 */
+	public static void main(String[] args) {
 
-			System.out.println("Hello World");
-		}
+		System.out.println("Hello World");
+	}
 }
