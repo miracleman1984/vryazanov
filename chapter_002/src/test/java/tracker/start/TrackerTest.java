@@ -1,11 +1,11 @@
-package Tracker.start;
+package tracker.start;
 
-import Tracker.models.Item;
-import Tracker.models.Task;
+import tracker.models.Item;
+import tracker.models.Task;
 import org.junit.Test;
 
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 /**
  * Created by vr on 03.02.2017.
