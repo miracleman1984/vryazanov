@@ -1,4 +1,4 @@
-package ru.job4j;
+package Professions;
 
 /**
  * Created by vr on 03.02.2017.

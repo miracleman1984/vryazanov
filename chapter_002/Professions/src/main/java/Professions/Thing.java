@@ -1,4 +1,4 @@
-package ru.job4j;
+package Professions;
 
 /**
  * Thing class stores characteristics of something and things that it can do.

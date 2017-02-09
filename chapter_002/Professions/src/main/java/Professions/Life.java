@@ -1,4 +1,4 @@
-package ru.job4j;
+package Professions;
 
 /**
  * Life class.

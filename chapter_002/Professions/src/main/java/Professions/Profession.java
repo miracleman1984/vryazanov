@@ -1,4 +1,4 @@
-package ru.job4j;
+package Professions;package ;
 
 /**
  * Profession abstract class that stores shared properties and methods for all professions.

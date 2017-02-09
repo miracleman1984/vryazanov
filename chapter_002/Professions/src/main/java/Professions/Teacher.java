@@ -1,4 +1,4 @@
-package ru.job4j;
+package Professions;
 
 /**
  * Teacher class that stores unique properties and methods for Teacher.

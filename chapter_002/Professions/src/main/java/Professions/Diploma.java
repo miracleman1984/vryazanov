@@ -1,4 +1,4 @@
-package ru.job4j;
+package Professions;
 
 /**
  * Diploma class that stores diploma details.
