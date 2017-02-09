@@ -1,4 +1,4 @@
-package Professions;
+package professions;
 
 /**
  * Teacher class that stores unique properties and methods for Teacher.

@@ -1,4 +1,4 @@
-package Professions;
+package professions;
 
 /**
  * Thing class stores characteristics of something and things that it can do.

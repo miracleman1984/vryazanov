@@ -1,4 +1,4 @@
-package Professions;
+package professions;
 
 /**
  * Engineer class that stores unique properties and methods for Engineers.

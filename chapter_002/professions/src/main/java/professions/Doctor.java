@@ -1,4 +1,4 @@
-package Professions;
+package professions;
 
 /**
  * Doctor class that stores unique properties and methods for doctors.

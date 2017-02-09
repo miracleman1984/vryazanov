@@ -1,4 +1,4 @@
-package Professions;
+package professions;
 
 /**
  * Diploma class that stores diploma details.

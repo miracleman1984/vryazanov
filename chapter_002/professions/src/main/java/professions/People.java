@@ -1,4 +1,4 @@
-package Professions;
+package professions;
 
 /**
  * Created by vr on 03.02.2017.
