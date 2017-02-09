@@ -8,9 +8,16 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 /**
- * Created by vr on 03.02.2017.
+ * Tracker test.
+ *
+ * @author vryazanov
+ * @since 25.01.2016
+ * @version 1
  */
 public class TrackerTest {
+    /**
+     * Adding one item and check that it exists.
+     */
     @Test
     public void whenAddNewItemThenItMustExist() {
         Tracker tracker = new Tracker();
@@ -21,6 +28,9 @@ public class TrackerTest {
         }
         assertThat(result, is("first task"));
     }
+    /**
+     * Update one item and check that it was updated.
+     */
     @Test
     public void whenUpdateExistedItemThenItMustBeUpdated() {
         String result = "";
@@ -32,6 +42,9 @@ public class TrackerTest {
         result = tracker.getAll()[0].getName().toString();
         assertThat(result, is("updated task task"));
     }
+    /**
+     * Delete one item and check that it was deleted.
+     */
     @Test
     public void whenDeleteExistedItemThenItMustBeMinusOneItem() {
         int result = 10;
@@ -43,6 +56,9 @@ public class TrackerTest {
         result = tracker.getAll().length;
         assertThat(result, is(0));
     }
+    /**
+     * Trying to delete non-existed item and check that nothing was happened this items.
+     */
     @Test
     public void whenDeleteNonExistedItemThenItMustBeTheSameLength() {
         int result = 10;
@@ -54,7 +70,10 @@ public class TrackerTest {
         result = tracker.getAll().length;
         assertThat(result, is(1));
     }
-
+    /**
+     * Trying to delete existed item in the beginning of the list and check that elements was switched.
+     * We use find by name to check it.
+     */
     @Test
     public void whenDeleteExistedInBigTrackerItemThenFindByNameAndSwitchItems() {
         int result = 10;
@@ -64,12 +83,13 @@ public class TrackerTest {
         tracker.add(new Task("Third task", "Third desc"));
         Item itemForDelete = new Task("first task", "first desc");
         itemForDelete.setId(tracker.findByName("first task").getId());
-        System.out.println(tracker.getAll().length);
         tracker.delete(itemForDelete);
         result = tracker.getAll().length;
         assertThat(result, is(2));
     }
-
+    /**
+     * Trying to find existed item by name and check that elements was finded correctly.
+     */
     @Test
     public void whenFindByIdAndExistsThenReturnNotNull() {
         Item result = null;

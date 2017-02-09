@@ -2,7 +2,6 @@ package tracker.start;
 
 import tracker.models.Item;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -66,11 +65,12 @@ public class Tracker {
      * @param name to find
      * @return list of item that was found
      */
-    public ArrayList<Item> findByName(String name) {
-        ArrayList<Item> result = null;
+    public Item findByName(String name) {
+        Item result = null;
         for (Item item : this.items) {
             if (item != null && item.getName().equals(name)) {
-                result.add(item);
+                result = item;
+                break;
             }
         }
         return result;
