@@ -20,8 +20,9 @@ public class Teacher extends Profession {
     /**
      * Learn someone.
      * @param man that learned
+     * @return string about learning
      */
-    public void learn(People man) {
-        System.out.println("Teacher is teaching this man");
+    public String learn(People man) {
+        return "Teacher is teaching this man";
     }
 }

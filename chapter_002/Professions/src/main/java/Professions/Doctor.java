@@ -20,8 +20,9 @@ public class Doctor extends Profession  {
     /**
      * Cures another man.
      * @param man that cured
+     * @return string about curing
      */
-    public void cure(People man) {
-        System.out.println("Doctor is curing this man");
+    public String cure(People man) {
+        return "Doctor is curing this man";
     }
 }

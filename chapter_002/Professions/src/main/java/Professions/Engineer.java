@@ -20,9 +20,9 @@ public class Engineer extends Profession {
     /**
      * Serves something.
      * @param someThing that served
-     */
-    public void serve(Thing someThing) {
-
-        System.out.println("Engeneer is serving this thing");
+     * @return string about serving
+     * */
+    public String serve(Thing someThing) {
+        return "Engeneer is serving this thing";
     }
 }

@@ -1,4 +1,4 @@
-package Professions;package ;
+package Professions;
 
 /**
  * Profession abstract class that stores shared properties and methods for all professions.
