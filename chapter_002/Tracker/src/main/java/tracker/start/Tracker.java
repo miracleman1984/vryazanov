@@ -2,6 +2,7 @@ package tracker.start;
 
 import tracker.models.Item;
 
+import java.util.HashMap;
 import java.util.Random;
 
 /**
@@ -32,7 +33,7 @@ public class Tracker {
         this.items[position++] = item;
     }
     /**
-     * Update item in databaseon.
+     * Update item in database.
      * @param itemFill to update
      */
     public void update(Item itemFill) {
@@ -108,5 +109,17 @@ public class Tracker {
             result[index] = this.items[index];
         }
         return result;
+    }
+
+
+    public HashMap<Integer, String> enumItems(){
+        int count = 0;
+        HashMap<Integer, String> map = new HashMap<Integer, String>();
+        for (Item item : getAll()){
+            count++;
+            map.put(count, item.getId());
+            System.out.println(count + ".  " + item.getName() + "  id =  " + item.getId());
+        }
+        return map;
     }
 }

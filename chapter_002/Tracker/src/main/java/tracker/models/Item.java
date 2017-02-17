@@ -6,13 +6,13 @@ package tracker.models;
  * @since 06.02.2017
  * @version 1
  */
-public class Item {
+public abstract class Item {
     /**
      * Store id of the item.
      */
     private String id;
     /**
-     * Store id of the item.
+     * Store name of the item.
      */
     private String name;
     /**
