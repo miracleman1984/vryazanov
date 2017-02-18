@@ -1,7 +1,10 @@
 package tracker.start;
 
 /**
- * Created by vr on 16.02.2017.
+ * StubInput class return string from a massive with answers.
+ * @author Vitaly Ryazanov miracleman@mail.ru
+ * @since 18.02.2017
+ * @version 1
  */
 public class StubInput implements Input {
     private String[] answers;

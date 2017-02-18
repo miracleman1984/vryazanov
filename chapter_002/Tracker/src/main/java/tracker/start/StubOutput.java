@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 /**
- * Created by vr on 16.02.2017.
+ * StubOutput class to add something to an array and then return this array.
+ * @author Vitaly Ryazanov miracleman@mail.ru
+ * @since 18.02.2017
+ * @version 1
  */
 public class StubOutput implements Output {
     private ArrayList<String> answers;

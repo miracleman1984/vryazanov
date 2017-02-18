@@ -7,9 +7,10 @@ import java.util.Random;
 
 /**
  * Tracker class that stores items, its properties and methods for work with items.
+ *
  * @author Vitaly Ryazanov miracleman@mail.ru
- * @since 06.02.2017
  * @version 1
+ * @since 06.02.2017
  */
 public class Tracker {
     /**
@@ -24,16 +25,20 @@ public class Tracker {
      * Store random number.
      */
     private static final Random RN = new Random();
+
     /**
      * Add item to database.
+     *
      * @param item to add
      */
     public void add(Item item) {
         item.setId(this.generateID());
         this.items[position++] = item;
     }
+
     /**
      * Update item in database.
+     *
      * @param itemFill to update
      */
     public void update(Item itemFill) {
@@ -44,8 +49,10 @@ public class Tracker {
             }
         }
     }
+
     /**
      * Delete item from database .
+     *
      * @param item to delete
      */
     public void delete(Item item) {
@@ -61,8 +68,10 @@ public class Tracker {
             }
         }
     }
+
     /**
      * Find Item with definite name.
+     *
      * @param name to find
      * @return list of item that was found
      */
@@ -79,6 +88,7 @@ public class Tracker {
 
     /**
      * Find Item with definite id.
+     *
      * @param id to find
      * @return item that was found
      */
@@ -92,15 +102,19 @@ public class Tracker {
         }
         return result;
     }
+
     /**
      * Generate id for current item.
+     *
      * @return id to set to the item
      */
     String generateID() {
         return String.valueOf(System.currentTimeMillis() + RN.nextInt());
     }
+
     /**
      * Returm all items from database.
+     *
      * @return items from database
      */
     public Item[] getAll() {
@@ -112,10 +126,10 @@ public class Tracker {
     }
 
 
-    public HashMap<Integer, String> enumItems(){
+    public HashMap<Integer, String> enumItems() {
         int count = 0;
         HashMap<Integer, String> map = new HashMap<Integer, String>();
-        for (Item item : getAll()){
+        for (Item item : getAll()) {
             count++;
             map.put(count, item.getId());
             System.out.println(count + ".  " + item.getName() + "  id =  " + item.getId());
