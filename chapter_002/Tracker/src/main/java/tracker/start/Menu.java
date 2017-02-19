@@ -79,7 +79,7 @@ public class Menu {
     public Item chooseItem(Input input, String ask) {
         Item result = null;
         HashMap<Integer, String> map = tracker.enumItems();
-        if (!map.isEmpty()){
+        if (!map.isEmpty()) {
             result = tracker.findById(map.get(Integer.parseInt(input.ask(ask))));
         }
         return result;
@@ -93,7 +93,7 @@ public class Menu {
      */
     public void editItem(Input input, Output output) {
         Item itemForEdit = chooseItem(input, "Enter a number to choose item for edit");
-        if (itemForEdit!=null) {
+        if (itemForEdit != null) {
             String id = itemForEdit.getId();
             String name = itemForEdit.getName();
             String description = itemForEdit.getDescription();
@@ -111,20 +111,24 @@ public class Menu {
             Item itemForUpdate = new Task(name, description);
             itemForUpdate.setId(id);
             tracker.update(itemForUpdate);
-        } else output.toOutput(new String[] {"Nothing to edit"});
+        } else {
+            output.toOutput(new String[]{"Nothing to edit"});
+        }
     }
 
     /**
      * Dialog for delete item from tracker.
      *
-     * @param input from for it will be get
+     * @param input  from for it will be get
      * @param output to where will be shown important information
      */
     public void deleteItem(Input input, Output output) {
         Item itemForDelete = chooseItem(input, "Enter a number to delete item");
-        if (itemForDelete!=null) {
+        if (itemForDelete != null) {
             tracker.delete(chooseItem(input, "Enter a number to delete item"));
-        } else output.toOutput(new String[] {"Nothing to delete"});
+        } else {
+            output.toOutput(new String[]{"Nothing to delete"});
+        }
     }
 
     /**
@@ -134,12 +138,14 @@ public class Menu {
      * @param output to where will be shown important information
      */
     public void showItems(Item[] items, Output output) {
-        if(items.length != 0 && items[0]!=null) {
+        if (items.length != 0 && items[0] != null) {
             for (Item item : items) {
-                System.out.println("I'm here" );
+                System.out.println("I'm here");
                 output.toOutput(new String[]{"Name: " + item.getName() + " Description: " + item.getDescription()});
             }
-        } else output.toOutput(new String[]{"No items to show"});
+        } else {
+            output.toOutput(new String[]{"No items to show"});
+        }
     }
 
     /**
