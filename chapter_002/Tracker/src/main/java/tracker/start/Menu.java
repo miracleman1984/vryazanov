@@ -3,6 +3,8 @@ package tracker.start;
 import tracker.models.Item;
 import tracker.models.Task;
 
+import java.util.HashMap;
+
 /**
  * Menu class includes menu and responces for each part of it.
  *
@@ -75,7 +77,12 @@ public class Menu {
      * @return Item chosen item
      */
     public Item chooseItem(Input input, String ask) {
-        return tracker.findById(tracker.enumItems().get(Integer.parseInt(input.ask(ask))));
+        Item result = null;
+        HashMap<Integer, String> map = tracker.enumItems();
+        if (!map.isEmpty()){
+            result = tracker.findById(map.get(Integer.parseInt(input.ask(ask))));
+        }
+        return result;
     }
 
     /**
@@ -86,32 +93,38 @@ public class Menu {
      */
     public void editItem(Input input, Output output) {
         Item itemForEdit = chooseItem(input, "Enter a number to choose item for edit");
-        String id = itemForEdit.getId();
-        String name = itemForEdit.getName();
-        String description = itemForEdit.getDescription();
-        System.out.println("You are edited task with id = " + id);
-        System.out.println("name = " + name);
-        String newName = input.ask("Enter new name or just press Enter to stay current");
-        if (!"".equals(newName)) {
-            name = newName;
-        }
-        System.out.println("description now = " + description);
-        String newDescription = input.ask("Enter new description or just press Enter to stay current");
-        if (!"".equals(newDescription)) {
-            description = newDescription;
-        }
-        Item itemForUpdate = new Task(name, description);
-        itemForUpdate.setId(id);
-        tracker.update(itemForUpdate);
+        if (itemForEdit!=null) {
+            String id = itemForEdit.getId();
+            String name = itemForEdit.getName();
+            String description = itemForEdit.getDescription();
+            System.out.println("You are edited task with id = " + id);
+            System.out.println("name = " + name);
+            String newName = input.ask("Enter new name or just press Enter to stay current");
+            if (!"".equals(newName)) {
+                name = newName;
+            }
+            System.out.println("description now = " + description);
+            String newDescription = input.ask("Enter new description or just press Enter to stay current");
+            if (!"".equals(newDescription)) {
+                description = newDescription;
+            }
+            Item itemForUpdate = new Task(name, description);
+            itemForUpdate.setId(id);
+            tracker.update(itemForUpdate);
+        } else output.toOutput(new String[] {"Nothing to edit"});
     }
 
     /**
      * Dialog for delete item from tracker.
      *
      * @param input from for it will be get
+     * @param output to where will be shown important information
      */
-    public void deleteItem(Input input) {
-        tracker.delete(chooseItem(input, "Enter a number to delete item"));
+    public void deleteItem(Input input, Output output) {
+        Item itemForDelete = chooseItem(input, "Enter a number to delete item");
+        if (itemForDelete!=null) {
+            tracker.delete(chooseItem(input, "Enter a number to delete item"));
+        } else output.toOutput(new String[] {"Nothing to delete"});
     }
 
     /**
@@ -121,9 +134,12 @@ public class Menu {
      * @param output to where will be shown important information
      */
     public void showItems(Item[] items, Output output) {
-        for (Item item : items) {
-            output.toOutput(new String[]{"Name: " + item.getName() + " Description: " + item.getDescription()});
-        }
+        if(items.length != 0 && items[0]!=null) {
+            for (Item item : items) {
+                System.out.println("I'm here" );
+                output.toOutput(new String[]{"Name: " + item.getName() + " Description: " + item.getDescription()});
+            }
+        } else output.toOutput(new String[]{"No items to show"});
     }
 
     /**
@@ -166,7 +182,7 @@ public class Menu {
                 this.isShow = true;
                 break;
             case "4":
-                deleteItem(input);
+                deleteItem(input, output);
                 this.isShow = true;
                 break;
             case "5":
