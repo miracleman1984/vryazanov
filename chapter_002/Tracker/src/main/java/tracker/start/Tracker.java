@@ -124,8 +124,11 @@ public class Tracker {
         }
         return result;
     }
-
-
+    /**
+     * Enumerate items in database from 1 to database size.
+     *
+     * @return enumerated items from database - pairs: number - id
+     */
     public HashMap<Integer, String> enumItems() {
         int count = 0;
         HashMap<Integer, String> map = new HashMap<Integer, String>();
