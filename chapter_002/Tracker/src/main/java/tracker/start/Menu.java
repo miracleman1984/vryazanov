@@ -140,7 +140,6 @@ public class Menu {
     public void showItems(Item[] items, Output output) {
         if (items.length != 0 && items[0] != null) {
             for (Item item : items) {
-                System.out.println("I'm here");
                 output.toOutput(new String[]{"Name: " + item.getName() + " Description: " + item.getDescription()});
             }
         } else {
