@@ -193,7 +193,7 @@ public class Menu {
                 this.isShow = true;
                 break;
             case "5":
-                showItems(new Item[]{tracker.findByName(input.ask("Enter a name to find"))}, output);
+                showItems(tracker.findByName(input.ask("Enter a name to find")), output);
                 this.isShow = true;
                 break;
             case "6":

@@ -11,8 +11,8 @@ import static org.junit.Assert.assertThat;
  * Tracker test.
  *
  * @author vryazanov
- * @since 25.01.2016
  * @version 1
+ * @since 25.01.2016
  */
 public class TrackerTest {
     /**
@@ -24,10 +24,11 @@ public class TrackerTest {
         tracker.add(new Task("first task", "first desc"));
         String result = "";
         for (Item item : tracker.getAll()) {
-           result = item.getName();
+            result = item.getName();
         }
         assertThat(result, is("first task"));
     }
+
     /**
      * Update one item and check that it was updated.
      */
@@ -42,6 +43,7 @@ public class TrackerTest {
         result = tracker.getAll()[0].getName().toString();
         assertThat(result, is("updated task task"));
     }
+
     /**
      * Delete one item and check that it was deleted.
      */
@@ -56,6 +58,7 @@ public class TrackerTest {
         result = tracker.getAll().length;
         assertThat(result, is(0));
     }
+
     /**
      * Trying to delete non-existed item and check that nothing was happened this items.
      */
@@ -70,6 +73,7 @@ public class TrackerTest {
         result = tracker.getAll().length;
         assertThat(result, is(1));
     }
+
     /**
      * Trying to delete existed item in the beginning of the list and check that elements was switched.
      * We use find by name to check it.
@@ -82,11 +86,12 @@ public class TrackerTest {
         tracker.add(new Task("Second task", "Second desc"));
         tracker.add(new Task("Third task", "Third desc"));
         Item itemForDelete = new Task("first task", "first desc");
-        itemForDelete.setId(tracker.findByName("first task").getId());
+        itemForDelete.setId(tracker.findByName("first task")[0].getId());
         tracker.delete(itemForDelete);
         result = tracker.getAll().length;
         assertThat(result, is(2));
     }
+
     /**
      * Trying to find existed item by name and check that elements was finded correctly.
      */

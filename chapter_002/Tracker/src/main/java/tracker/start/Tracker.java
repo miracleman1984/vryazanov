@@ -2,6 +2,7 @@ package tracker.start;
 
 import tracker.models.Item;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -83,15 +84,16 @@ public class Tracker {
      * @param name to find
      * @return list of item that was found
      */
-    public Item findByName(String name) {
-        Item result = null;
+    public Item[] findByName(String name) {
+        ArrayList<Item> resultList = new ArrayList<>();
         for (Item item : this.items) {
             if (item != null && item.getName().equals(name)) {
-                result = item;
-                break;
+                resultList.add(item);
             }
         }
-        return result;
+        Item[] resultArray = new Item[resultList.size()];
+        resultArray = resultList.toArray(resultArray);
+        return resultArray;
     }
 
     /**
