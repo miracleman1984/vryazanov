@@ -10,9 +10,7 @@ package tracker.start;
  */
 public class ConsoleOutput implements Output {
     @Override
-    public void toOutput(String[] messages) {
-        for (String s : messages) {
-            System.out.println(s);
-        }
+    public void toOutput(String message) {
+        System.out.println(message);
     }
 }

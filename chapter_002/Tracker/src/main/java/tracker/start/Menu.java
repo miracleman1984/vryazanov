@@ -112,7 +112,7 @@ public class Menu {
             itemForUpdate.setId(id);
             tracker.update(itemForUpdate);
         } else {
-            output.toOutput(new String[]{"Nothing to edit"});
+            output.toOutput("Nothing to edit");
         }
     }
 
@@ -125,9 +125,9 @@ public class Menu {
     public void deleteItem(Input input, Output output) {
         Item itemForDelete = chooseItem(input, "Enter a number to delete item");
         if (itemForDelete != null) {
-            tracker.delete(chooseItem(input, "Enter a number to delete item"));
+            tracker.delete(itemForDelete);
         } else {
-            output.toOutput(new String[]{"Nothing to delete"});
+            output.toOutput("Nothing to delete");
         }
     }
 
@@ -140,10 +140,10 @@ public class Menu {
     public void showItems(Item[] items, Output output) {
         if (items.length != 0 && items[0] != null) {
             for (Item item : items) {
-                output.toOutput(new String[]{"Name: " + item.getName() + " Description: " + item.getDescription()});
+                output.toOutput("Name: " + item.getName() + " Description: " + item.getDescription());
             }
         } else {
-            output.toOutput(new String[]{"No items to show"});
+            output.toOutput("No items to show");
         }
     }
 
@@ -179,7 +179,9 @@ public class Menu {
                 break;
             case "2":
                 Item item = createItem(input);
-                tracker.add(item);
+                if (!tracker.add(item)) {
+                    output.toOutput("Cant't add new item to tracker because no free elements in items");
+                }
                 this.isShow = true;
                 break;
             case "3":
@@ -202,7 +204,7 @@ public class Menu {
                 this.isExit = true;
                 break;
             default:
-                output.toOutput(new String[]{"You have entered  not a key from the menu!"});
+                output.toOutput("You have entered  not a key from the menu!");
                 this.isShow = false;
         }
     }

@@ -9,8 +9,8 @@ import java.util.Random;
  * Tracker class that stores items, its properties and methods for work with items.
  *
  * @author Vitaly Ryazanov miracleman@mail.ru
- * @version 1
- * @since 06.02.2017
+ * @version 2
+ * @since 28.02.2017
  */
 public class Tracker {
     /**
@@ -30,10 +30,18 @@ public class Tracker {
      * Add item to database.
      *
      * @param item to add
+     * @return result of operation true if ok otherwise false
      */
-    public void add(Item item) {
-        item.setId(this.generateID());
-        this.items[position++] = item;
+    public boolean add(Item item) {
+        boolean result = false;
+        if (position != items.length) {
+            if (item.getId() == null) {
+                item.setId(this.generateID());
+            }
+            this.items[position++] = item;
+            result = true;
+        }
+        return result;
     }
 
     /**
@@ -124,6 +132,7 @@ public class Tracker {
         }
         return result;
     }
+
     /**
      * Enumerate items in database from 1 to database size.
      *

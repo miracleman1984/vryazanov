@@ -15,7 +15,18 @@ public class Task extends Item {
      * @param desc full story
      */
     public Task(String name, String desc) {
+
         super(name, desc, System.currentTimeMillis());
+    }
+    /**
+     * Task class constructor.
+     *
+     * @param name brief summary of task
+     * @param desc full story
+     * @param id   given id from external source
+     */
+    public Task(String name, String desc, String id) {
+        super(name, desc, System.currentTimeMillis(), id);
     }
 
     /**

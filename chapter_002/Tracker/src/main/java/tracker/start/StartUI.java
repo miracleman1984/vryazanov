@@ -41,6 +41,23 @@ public class StartUI {
         }
     }
     /**
+     * Initialize program if tracker already exists.
+     *
+     * @param sourceTracker given tracker from external source
+     */
+    public void init(Tracker sourceTracker) {
+        Tracker tracker = sourceTracker;
+        System.out.println("This is a task tracker");
+        Menu menu = new Menu(tracker);
+        while (!menu.isExit()) {
+            if (menu.isShow()) {
+                menu.show();
+            }
+            menu.choise(input, output);
+        }
+    }
+
+    /**
      * Main module and base logic of the program.
      * @param args commandline arguments
      */

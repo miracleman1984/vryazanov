@@ -9,7 +9,7 @@ package tracker.start;
 public interface Output {
     /**
      * Add something to chosen output.
-     * @param messages messages to be added to chosen output
+     * @param message to be added to chosen output
      */
-    void toOutput(String[] messages);
+    void toOutput(String message);
 }
