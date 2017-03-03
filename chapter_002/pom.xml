@@ -12,5 +12,6 @@
 	<modules>
 		<module>Professions</module>
         <module>Tracker</module>
+		<module>paint</module>
 	</modules>
 </project>
