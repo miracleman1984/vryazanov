@@ -19,17 +19,6 @@ public class Task extends Item {
         super(name, desc, System.currentTimeMillis());
     }
     /**
-     * Task class constructor.
-     *
-     * @param name brief summary of task
-     * @param desc full story
-     * @param id   given id from external source
-     */
-    public Task(String name, String desc, String id) {
-        super(name, desc, System.currentTimeMillis(), id);
-    }
-
-    /**
      * Calculate price for the execution.
      *
      * @return price

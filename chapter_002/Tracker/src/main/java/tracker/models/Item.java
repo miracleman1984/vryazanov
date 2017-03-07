@@ -42,21 +42,6 @@ public abstract class Item {
         this.create = create;
     }
     /**
-     * Item class constructor.
-     *
-     * @param name        brief summary of item
-     * @param description full story
-     * @param create      create date in milliseconds
-     * @param id          given id from external source
-     */
-    public Item(String name, String description, long create, String id) {
-        this.name = name;
-        this.description = description;
-        this.create = create;
-        this.id = id;
-    }
-
-    /**
      * Return name of the item.
      *
      * @return name of the item

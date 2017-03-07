@@ -35,13 +35,13 @@ public class StartUI {
      */
     public void init(Tracker sourceTracker) {
         System.out.println("This is a task tracker");
-        Menu menu = new Menu(sourceTracker);
-        while (!menu.isExit()) {
-            if (menu.isShow()) {
-                menu.show();
-            }
-            menu.choise(input, output);
-        }
+        MenuTracker menu = new MenuTracker(this.input, this.output, sourceTracker);
+        menu.fillActions();
+        do {
+            menu.show();
+            int key = Integer.valueOf(input.ask("Select: "));
+            menu.select(key);
+        } while (!"y".equals(this.input.ask("Exit?(y):")));
     }
 
     /**

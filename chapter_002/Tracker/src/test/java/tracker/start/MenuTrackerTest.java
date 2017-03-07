@@ -15,27 +15,13 @@ import static org.junit.Assert.assertThat;
  * @version 1.0
  * @since 27.02.2017
  */
-public class MenuTest {
-    /**
-     * If Pressed Wrong Key Then Message You have entered  not a key from the menu!.
-     */
-    @Test
-    public void whenPressWrongKeyThenMessage() {
-        final String[] answers = new String[]{"150", "7"};
-        String[] expectedOutput = new String[]{"You have entered  not a key from the menu!"};
-        Input input = new StubInput(answers);
-        StubOutput output = new StubOutput();
-        Tracker tracker = new Tracker();
-        new StartUI(input, output).init(tracker);
-        assertThat(output.getAnswers(), is(Arrays.asList(expectedOutput)));
-    }
-
+public class MenuTrackerTest {
     /**
      * If there are no tasks in tracker then should work correctly.
      */
     @Test
     public void whenNoTasksThenNothingToDo() {
-        final String[] answers = new String[]{"1", "3", "4", "7"};
+        final String[] answers = new String[]{"2", "n", "3", "n",  "4", "y"};
         String[] expectedOutput = new String[]{
                 "No items to show",
                 "Nothing to edit",
@@ -52,11 +38,11 @@ public class MenuTest {
     @Test
     public void whenAddNewItemThenItMustExists() {
         final String[] answers = new String[]{
-                "2", "Problem", "Big big problem",
-                "1",
-                "7"};
+                "1", "Problem", "Big big problem", "n",
+                "2", "y"
+        };
         String[] expectedOutput = new String[]{
-                "Name: Problem Description: Big big problem",
+                "1. Problem"
                 };
         Input input = new StubInput(answers);
         StubOutput output = new StubOutput();
@@ -70,24 +56,24 @@ public class MenuTest {
     @Test
     public void whenAddNewItemAndThereIsNoSpaceThenMessage() {
         final String[] answers = new String[]{
-                "2", "Problem", "Big big problem",
-                "7"};
+                "1", "Problem", "Big big problem", "y"
+                };
         String[] expectedOutput = new String[]{
                 "Cant't add new item to tracker because no free elements in items"
         };
         Input input = new StubInput(answers);
         StubOutput output = new StubOutput();
         Tracker tracker = new Tracker();
-        tracker.add(new Task("1 task", "1 desc", "1"));
-        tracker.add(new Task("2 task", "2 desc", "2"));
-        tracker.add(new Task("3 task", "3 desc", "3"));
-        tracker.add(new Task("4 task", "4 desc", "4"));
-        tracker.add(new Task("5 task", "5 desc", "5"));
-        tracker.add(new Task("6 task", "6 desc", "6"));
-        tracker.add(new Task("7 task", "7 desc", "7"));
-        tracker.add(new Task("8 task", "8 desc", "8"));
-        tracker.add(new Task("9 task", "9 desc", "9"));
-        tracker.add(new Task("10 task", "10 desc", "10"));
+        tracker.add(new Task("1 task", "1 desc"));
+        tracker.add(new Task("2 task", "2 desc"));
+        tracker.add(new Task("3 task", "3 desc"));
+        tracker.add(new Task("4 task", "4 desc"));
+        tracker.add(new Task("5 task", "5 desc"));
+        tracker.add(new Task("6 task", "6 desc"));
+        tracker.add(new Task("7 task", "7 desc"));
+        tracker.add(new Task("8 task", "8 desc"));
+        tracker.add(new Task("9 task", "9 desc"));
+        tracker.add(new Task("10 task", "10 desc"));
         new StartUI(input, output).init(tracker);
         assertThat(output.getAnswers(), is(Arrays.asList(expectedOutput)));
     }
@@ -97,17 +83,17 @@ public class MenuTest {
     @Test
     public void whenDeleteExistingItemThenItMustBeDeleted() {
         final String[] answers = new String[]{
-                "4",
-                "1",
-                "1",
-                "7"};
+                "4", "1", "n",
+                "2", "y"
+        };
         String[] expectedOutput = new String[]{
+                "Successful deleting.",
                 "No items to show"
         };
         Input input = new StubInput(answers);
         StubOutput output = new StubOutput();
         Tracker tracker = new Tracker();
-        tracker.add(new Task("1 task", "1 desc", "1"));
+        tracker.add(new Task("1 task", "1 desc"));
         new StartUI(input, output).init(tracker);
         assertThat(output.getAnswers(), is(Arrays.asList(expectedOutput)));
     }
@@ -117,16 +103,15 @@ public class MenuTest {
     @Test
     public void whenDeleteNonExistingItemThenMessage() {
         final String[] answers = new String[]{
-                "4",
-                "2",
-                "7"};
+                "4", "5", "y"
+        };
         String[] expectedOutput = new String[]{
-                "Nothing to delete"
+                "Some trouble with deleting, possible you've typed a wrong id."
         };
         Input input = new StubInput(answers);
         StubOutput output = new StubOutput();
         Tracker tracker = new Tracker();
-        tracker.add(new Task("1 task", "1 desc", "1"));
+        tracker.add(new Task("1 task", "1 desc"));
         new StartUI(input, output).init(tracker);
         assertThat(output.getAnswers(), is(Arrays.asList(expectedOutput)));
     }
@@ -136,15 +121,15 @@ public class MenuTest {
     @Test
     public void whenEditItemThenItMustChanged() {
         final String[] answers = new String[]{
-                "3", "1", "Small problem", "Not so big problem",
-                "1",
-                "7"};
+                "3", "1", "Small problem", "Not so big problem", "n",
+                "2", "y"
+        };
         String[] expectedOutput = new String[]{
-                "Name: Small problem Description: Not so big problem"};
+                "1. Small problem"};
         Input input = new StubInput(answers);
         StubOutput output = new StubOutput();
         Tracker tracker = new Tracker();
-        tracker.add(new Task("1 task", "1 desc", "1"));
+        tracker.add(new Task("1 task", "1 desc"));
         new StartUI(input, output).init(tracker);
         assertThat(output.getAnswers(), is(Arrays.asList(expectedOutput)));
     }
@@ -154,15 +139,14 @@ public class MenuTest {
     @Test
     public void whenEditNonExistedItemThenMessage() {
         final String[] answers = new String[]{
-                "3",
-                "2",
-                "7"};
+                "3", "5", "y"
+        };
         String[] expectedOutput = new String[]{
-                "Nothing to edit"};
+                "Tracker have no task with such id."};
         Input input = new StubInput(answers);
         StubOutput output = new StubOutput();
         Tracker tracker = new Tracker();
-        tracker.add(new Task("1 task", "1 desc", "1"));
+        tracker.add(new Task("1 task", "1 desc"));
         new StartUI(input, output).init(tracker);
         assertThat(output.getAnswers(), is(Arrays.asList(expectedOutput)));
     }
@@ -173,17 +157,19 @@ public class MenuTest {
     @Test
     public void whenNeedFindByNameThatExistsThenMustBeFound() {
         final String[] answers = new String[]{
-                "5", "5 task",
-                "7"};
+                "5", "5 task", "y"
+        };
         String[] expectedOutput = new String[]{
-                "Name: 5 task Description: 5 desc",
-                "Name: 5 task Description: 6 desc"};
+                "2 item(s) has been found.",
+                "2. 5 task",
+                "3. 5 task"
+        };
         Input input = new StubInput(answers);
         StubOutput output = new StubOutput();
         Tracker tracker = new Tracker();
-        tracker.add(new Task("4 task", "4 desc", "4"));
-        tracker.add(new Task("5 task", "5 desc", "5"));
-        tracker.add(new Task("5 task", "6 desc", "6"));
+        tracker.add(new Task("4 task", "4 desc"));
+        tracker.add(new Task("5 task", "5 desc"));
+        tracker.add(new Task("5 task", "6 desc"));
         new StartUI(input, output).init(tracker);
         assertThat(output.getAnswers(), is(Arrays.asList(expectedOutput)));
     }
@@ -193,16 +179,16 @@ public class MenuTest {
     @Test
     public void whenNeedFindByNameThatNotExistsThenNothingFound() {
         final String[] answers = new String[]{
-                "5", "task",
-                "7"};
+                "5", "task", "y"
+        };
         String[] expectedOutput = new String[]{
-                "No items to show"};
+                "Nothing has been found."};
         Input input = new StubInput(answers);
         StubOutput output = new StubOutput();
         Tracker tracker = new Tracker();
-        tracker.add(new Task("4 task", "4 desc", "4"));
-        tracker.add(new Task("5 task", "5 desc", "5"));
-        tracker.add(new Task("5 task", "6 desc", "6"));
+        tracker.add(new Task("4 task", "4 desc"));
+        tracker.add(new Task("5 task", "5 desc"));
+        tracker.add(new Task("5 task", "6 desc"));
         new StartUI(input, output).init(tracker);
         assertThat(output.getAnswers(), is(Arrays.asList(expectedOutput)));
     }
@@ -212,16 +198,16 @@ public class MenuTest {
     @Test
     public void whenNeedFindByIDThatExistsThenHaveToBeFound() {
         final String[] answers = new String[]{
-                "6", "5",
-                "7"};
+                "6", "2", "y"
+        };
         String[] expectedOutput = new String[]{
-                "Name: 5 task Description: 5 desc"};
+                "2. 5 task"};
         Input input = new StubInput(answers);
         StubOutput output = new StubOutput();
         Tracker tracker = new Tracker();
-        tracker.add(new Task("4 task", "4 desc", "4"));
-        tracker.add(new Task("5 task", "5 desc", "5"));
-        tracker.add(new Task("5 task", "6 desc", "6"));
+        tracker.add(new Task("4 task", "4 desc"));
+        tracker.add(new Task("5 task", "5 desc"));
+        tracker.add(new Task("5 task", "6 desc"));
         new StartUI(input, output).init(tracker);
         assertThat(output.getAnswers(), is(Arrays.asList(expectedOutput)));
     }
@@ -231,16 +217,16 @@ public class MenuTest {
     @Test
     public void whenNeedFindByIDThatNotExistsThenNothingFound() {
         final String[] answers = new String[]{
-                "6", "20",
-                "7"};
+                "6", "20", "y"
+        };
         String[] expectedOutput = new String[]{
-                "No items to show"};
+                "Nothing has been found."};
         Input input = new StubInput(answers);
         StubOutput output = new StubOutput();
         Tracker tracker = new Tracker();
-        tracker.add(new Task("4 task", "4 desc", "4"));
-        tracker.add(new Task("5 task", "5 desc", "5"));
-        tracker.add(new Task("5 task", "6 desc", "6"));
+        tracker.add(new Task("4 task", "4 desc"));
+        tracker.add(new Task("5 task", "5 desc"));
+        tracker.add(new Task("5 task", "6 desc"));
         new StartUI(input, output).init(tracker);
         assertThat(output.getAnswers(), is(Arrays.asList(expectedOutput)));
     }
