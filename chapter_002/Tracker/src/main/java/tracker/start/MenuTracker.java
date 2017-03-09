@@ -89,6 +89,29 @@ public class MenuTracker {
         this.actions[5] = new FindItemByID();
     }
     /**
+     * Return range for menu chapter numbers.
+     *
+     * @return range with existing menu chapter numbers
+     */
+    public int[] getRange() {
+        //test for null objects
+        int[] temp = new int[actions.length];
+        int i = 0;
+        for (UserAction userAction : actions) {
+            if (userAction != null) {
+                temp[i] = userAction.key();
+                i++;
+            }
+        }
+        int[] result = new int[i];
+        int k = 0;
+        for (int j : temp) {
+            result[k++] = j;
+        }
+        return result;
+    }
+
+    /**
      * Execute selected menu chapter.
      *
      * @param key selected menu chapter

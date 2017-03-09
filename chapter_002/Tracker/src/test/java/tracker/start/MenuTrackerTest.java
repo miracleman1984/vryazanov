@@ -9,13 +9,45 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 /**
- * Test for class StartUI with class StubInput and StubOutput.
+ * Test for class StartUI with class ValidateStubInput and StubOutput.
  *
  * @author vryazanov
  * @version 1.0
  * @since 27.02.2017
  */
 public class MenuTrackerTest {
+    /**
+     * If trying to enter non-existing number to choose in menu.
+     */
+    @Test
+    public void whenEnterNonExistingNumberInMenuThenMessage() {
+        final String[] answers = new String[]{"7", "2", "y"};
+        String[] expectedOutput = new String[]{
+                "Please select key from menu.",
+                "No items to show"
+        };
+        Input input = new ValidateStubInput(answers);
+        StubOutput output = new StubOutput();
+        Tracker tracker = new Tracker();
+        new StartUI(tracker, input, output).init();
+        assertThat(output.getAnswers(), is(Arrays.asList(expectedOutput)));
+    }
+    /**
+     * If trying to enter not a  number to choose in menu.
+     */
+    @Test
+    public void whenEnterNotANumberInMenuThenMessage() {
+        final String[] answers = new String[]{"y", "2", "y"};
+        String[] expectedOutput = new String[]{
+                "Please enter valid data again,",
+                "No items to show"
+        };
+        Input input = new ValidateStubInput(answers);
+        StubOutput output = new StubOutput();
+        Tracker tracker = new Tracker();
+        new StartUI(tracker, input, output).init();
+        assertThat(output.getAnswers(), is(Arrays.asList(expectedOutput)));
+    }
     /**
      * If there are no tasks in tracker then should work correctly.
      */
@@ -26,10 +58,10 @@ public class MenuTrackerTest {
                 "No items to show",
                 "Nothing to edit",
                 "Nothing to delete"};
-        Input input = new StubInput(answers);
+        Input input = new ValidateStubInput(answers);
         StubOutput output = new StubOutput();
         Tracker tracker = new Tracker();
-        new StartUI(input, output).init(tracker);
+        new StartUI(tracker, input, output).init();
         assertThat(output.getAnswers(), is(Arrays.asList(expectedOutput)));
     }
     /**
@@ -44,10 +76,10 @@ public class MenuTrackerTest {
         String[] expectedOutput = new String[]{
                 "1. Problem"
                 };
-        Input input = new StubInput(answers);
+        Input input = new ValidateStubInput(answers);
         StubOutput output = new StubOutput();
         Tracker tracker = new Tracker();
-        new StartUI(input, output).init(tracker);
+        new StartUI(tracker, input, output).init();
         assertThat(output.getAnswers(), is(Arrays.asList(expectedOutput)));
     }
     /**
@@ -61,7 +93,7 @@ public class MenuTrackerTest {
         String[] expectedOutput = new String[]{
                 "Cant't add new item to tracker because no free elements in items"
         };
-        Input input = new StubInput(answers);
+        Input input = new ValidateStubInput(answers);
         StubOutput output = new StubOutput();
         Tracker tracker = new Tracker();
         tracker.add(new Task("1 task", "1 desc"));
@@ -74,7 +106,7 @@ public class MenuTrackerTest {
         tracker.add(new Task("8 task", "8 desc"));
         tracker.add(new Task("9 task", "9 desc"));
         tracker.add(new Task("10 task", "10 desc"));
-        new StartUI(input, output).init(tracker);
+        new StartUI(tracker, input, output).init();
         assertThat(output.getAnswers(), is(Arrays.asList(expectedOutput)));
     }
     /**
@@ -90,11 +122,11 @@ public class MenuTrackerTest {
                 "Successful deleting.",
                 "No items to show"
         };
-        Input input = new StubInput(answers);
+        Input input = new ValidateStubInput(answers);
         StubOutput output = new StubOutput();
         Tracker tracker = new Tracker();
         tracker.add(new Task("1 task", "1 desc"));
-        new StartUI(input, output).init(tracker);
+        new StartUI(tracker, input, output).init();
         assertThat(output.getAnswers(), is(Arrays.asList(expectedOutput)));
     }
     /**
@@ -108,11 +140,11 @@ public class MenuTrackerTest {
         String[] expectedOutput = new String[]{
                 "Some trouble with deleting, possible you've typed a wrong id."
         };
-        Input input = new StubInput(answers);
+        Input input = new ValidateStubInput(answers);
         StubOutput output = new StubOutput();
         Tracker tracker = new Tracker();
         tracker.add(new Task("1 task", "1 desc"));
-        new StartUI(input, output).init(tracker);
+        new StartUI(tracker, input, output).init();
         assertThat(output.getAnswers(), is(Arrays.asList(expectedOutput)));
     }
     /**
@@ -126,11 +158,11 @@ public class MenuTrackerTest {
         };
         String[] expectedOutput = new String[]{
                 "1. Small problem"};
-        Input input = new StubInput(answers);
+        Input input = new ValidateStubInput(answers);
         StubOutput output = new StubOutput();
         Tracker tracker = new Tracker();
         tracker.add(new Task("1 task", "1 desc"));
-        new StartUI(input, output).init(tracker);
+        new StartUI(tracker, input, output).init();
         assertThat(output.getAnswers(), is(Arrays.asList(expectedOutput)));
     }
     /**
@@ -143,11 +175,11 @@ public class MenuTrackerTest {
         };
         String[] expectedOutput = new String[]{
                 "Tracker have no task with such id."};
-        Input input = new StubInput(answers);
+        Input input = new ValidateStubInput(answers);
         StubOutput output = new StubOutput();
         Tracker tracker = new Tracker();
         tracker.add(new Task("1 task", "1 desc"));
-        new StartUI(input, output).init(tracker);
+        new StartUI(tracker, input, output).init();
         assertThat(output.getAnswers(), is(Arrays.asList(expectedOutput)));
     }
 
@@ -164,13 +196,13 @@ public class MenuTrackerTest {
                 "2. 5 task",
                 "3. 5 task"
         };
-        Input input = new StubInput(answers);
+        Input input = new ValidateStubInput(answers);
         StubOutput output = new StubOutput();
         Tracker tracker = new Tracker();
         tracker.add(new Task("4 task", "4 desc"));
         tracker.add(new Task("5 task", "5 desc"));
         tracker.add(new Task("5 task", "6 desc"));
-        new StartUI(input, output).init(tracker);
+        new StartUI(tracker, input, output).init();
         assertThat(output.getAnswers(), is(Arrays.asList(expectedOutput)));
     }
     /**
@@ -183,13 +215,13 @@ public class MenuTrackerTest {
         };
         String[] expectedOutput = new String[]{
                 "Nothing has been found."};
-        Input input = new StubInput(answers);
+        Input input = new ValidateStubInput(answers);
         StubOutput output = new StubOutput();
         Tracker tracker = new Tracker();
         tracker.add(new Task("4 task", "4 desc"));
         tracker.add(new Task("5 task", "5 desc"));
         tracker.add(new Task("5 task", "6 desc"));
-        new StartUI(input, output).init(tracker);
+        new StartUI(tracker, input, output).init();
         assertThat(output.getAnswers(), is(Arrays.asList(expectedOutput)));
     }
     /**
@@ -202,13 +234,13 @@ public class MenuTrackerTest {
         };
         String[] expectedOutput = new String[]{
                 "2. 5 task"};
-        Input input = new StubInput(answers);
+        Input input = new ValidateStubInput(answers);
         StubOutput output = new StubOutput();
         Tracker tracker = new Tracker();
         tracker.add(new Task("4 task", "4 desc"));
         tracker.add(new Task("5 task", "5 desc"));
         tracker.add(new Task("5 task", "6 desc"));
-        new StartUI(input, output).init(tracker);
+        new StartUI(tracker, input, output).init();
         assertThat(output.getAnswers(), is(Arrays.asList(expectedOutput)));
     }
     /**
@@ -221,13 +253,13 @@ public class MenuTrackerTest {
         };
         String[] expectedOutput = new String[]{
                 "Nothing has been found."};
-        Input input = new StubInput(answers);
+        Input input = new ValidateStubInput(answers);
         StubOutput output = new StubOutput();
         Tracker tracker = new Tracker();
         tracker.add(new Task("4 task", "4 desc"));
         tracker.add(new Task("5 task", "5 desc"));
         tracker.add(new Task("5 task", "6 desc"));
-        new StartUI(input, output).init(tracker);
+        new StartUI(tracker, input, output).init();
         assertThat(output.getAnswers(), is(Arrays.asList(expectedOutput)));
     }
 }

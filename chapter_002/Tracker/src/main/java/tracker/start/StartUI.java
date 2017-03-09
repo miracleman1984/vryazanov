@@ -9,6 +9,10 @@ package tracker.start;
  */
 public class StartUI {
     /**
+     * Store ranges that menu can operates.
+     */
+    private int[] ranges;
+    /**
      * Store input method.
      */
     private Input input;
@@ -16,31 +20,35 @@ public class StartUI {
      * Store output method.
      */
     private Output output;
+    /**
+     * Store current tracker.
+     */
+    private Tracker tracker;
 
     /**
      * StartUI class constructor.
      *
      * @param input  set input method
      * @param output set output method
+     * @param tracker set current tracker
      */
-    public StartUI(Input input, Output output) {
+    public StartUI(Tracker tracker, Input input, Output output) {
         this.input = input;
         this.output = output;
+        this.tracker = tracker;
     }
-
     /**
      * Initialize program.
      *
-     * @param sourceTracker given tracker from external source
      */
-    public void init(Tracker sourceTracker) {
+    public void init() {
         System.out.println("This is a task tracker");
-        MenuTracker menu = new MenuTracker(this.input, this.output, sourceTracker);
+        MenuTracker menu = new MenuTracker(this.input, this.output, this.tracker);
         menu.fillActions();
+        int[] ranges = menu.getRange();
         do {
             menu.show();
-            int key = Integer.valueOf(input.ask("Select: "));
-            menu.select(key);
+            menu.select(input.ask("select: ", ranges, this.output));
         } while (!"y".equals(this.input.ask("Exit?(y):")));
     }
 
@@ -50,8 +58,8 @@ public class StartUI {
      * @param args commandline arguments
      */
     public static void main(String[] args) {
-        Input input = new ConsoleInput();
+        Input input = new ValidateConsoleInput();
         Output output = new ConsoleOutput();
-        new StartUI(input, output).init(new Tracker());
+        new StartUI(new Tracker(), input, output).init();
     }
 }
