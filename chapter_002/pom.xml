@@ -13,5 +13,6 @@
 		<module>Professions</module>
         <module>Tracker</module>
 		<module>paint</module>
-	</modules>
+        <module>Chess</module>
+    </modules>
 </project>
