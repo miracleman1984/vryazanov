@@ -11,7 +11,16 @@ import tracker.models.Task;
  * @version 1
  * @since 07.03.2017
  */
-class EditItem implements UserAction {
+class EditItem extends BaseAction  {
+    /**
+     *EditItem class constructor.
+     *
+     * @param name  set decription for the action
+     */
+    EditItem(String name) {
+        super(name);
+    }
+
     @Override
     public int key() {
         return 3;
@@ -34,11 +43,6 @@ class EditItem implements UserAction {
                 output.toOutput("Tracker have no task with such id.");
             }
         }
-    }
-
-    @Override
-    public String info() {
-        return String.format("%s. %s", this.key(), "Edit the item");
     }
 }
 /**
@@ -66,6 +70,10 @@ public class MenuTracker {
      */
     private UserAction[] actions = new UserAction[6];
     /**
+     * Store current menu position in actions.
+     */
+    private int position = 0;
+    /**
      * MenuTracker class constructor.
      *
      * @param input  set input method
@@ -81,12 +89,20 @@ public class MenuTracker {
      * Fill actions storage.
      */
     public void fillActions() {
-        this.actions[0] = new AddItem();
-        this.actions[1] = new MenuTracker.ShowItems();
-        this.actions[2] = new EditItem();
-        this.actions[3] = new DeleteItem();
-        this.actions[4] = new FindItemByName();
-        this.actions[5] = new FindItemByID();
+        this.actions[position++] = this.new AddItem("Add the new item");
+        this.actions[position++] = new MenuTracker.ShowItems("Show all items");
+        this.actions[position++] = new EditItem("Edit the item");
+        this.actions[position++] = new DeleteItem("Delete item by id");
+        this.actions[position++] = new FindItemByName("Find item by name");
+        this.actions[position++] = new FindItemByID("Find item by id");
+    }
+    /**
+     * Add new action to the menu.
+     *
+     * @param action new menu action
+     */
+    public void addAction(UserAction action) {
+        this.actions[position++] = action;
     }
     /**
      * Return range for menu chapter numbers.
@@ -137,7 +153,15 @@ public class MenuTracker {
      * @version 1
      * @since 07.03.2017
      */
-    private class AddItem implements UserAction {
+    private class AddItem extends BaseAction {
+        /**
+         * AddItem class constructor.
+         *
+         * @param name  set decription for the action
+         */
+        AddItem(String name) {
+            super(name);
+        }
         @Override
         public int key() {
             return 1;
@@ -151,11 +175,6 @@ public class MenuTracker {
                 output.toOutput("Cant't add new item to tracker because no free elements in items");
             }
         }
-
-        @Override
-        public String info() {
-            return String.format("%s. %s", this.key(), "Add the new item");
-        }
     }
     /**
      *  DeleteItem class menu chapter for deleting item from current storage.
@@ -164,7 +183,15 @@ public class MenuTracker {
      * @version 1
      * @since 07.03.2017
      */
-    private class DeleteItem implements UserAction {
+    private class DeleteItem extends BaseAction {
+        /**
+         * DeleteItem class constructor.
+         *
+         * @param name  set decription for the action
+         */
+        DeleteItem(String name) {
+            super(name);
+        }
         @Override
         public int key() {
             return 4;
@@ -186,11 +213,6 @@ public class MenuTracker {
                 }
             }
         }
-
-        @Override
-        public String info() {
-            return String.format("%s. %s", this.key(), "Delete item by id");
-        }
     }
     /**
      *  FindItemByName class menu chapter for finding items from current storage by name.
@@ -199,7 +221,16 @@ public class MenuTracker {
      * @version 1
      * @since 07.03.2017
      */
-    private class FindItemByName implements UserAction {
+    private class FindItemByName extends BaseAction {
+        /**
+         * FindItemByName class constructor.
+         *
+         * @param name  set decription for the action
+         */
+        FindItemByName(String name) {
+            super(name);
+        }
+
         @Override
         public int key() {
             return 5;
@@ -218,11 +249,6 @@ public class MenuTracker {
                 }
             }
         }
-
-        @Override
-        public String info() {
-            return String.format("%s. %s", this.key(), "Find item by name");
-        }
     }
     /**
      *  FindItemByID class menu chapter for finding item from current storage by id.
@@ -231,7 +257,16 @@ public class MenuTracker {
      * @version 1
      * @since 07.03.2017
      */
-    private class FindItemByID implements UserAction {
+    private class FindItemByID extends BaseAction {
+        /**
+         * FindItemByID class constructor.
+         *
+         * @param name  set decription for the action
+         */
+        FindItemByID(String name) {
+            super(name);
+        }
+
         @Override
         public int key() {
             return 6;
@@ -247,11 +282,6 @@ public class MenuTracker {
                 output.toOutput(String.format("%s. %s", foundItem.getId(), foundItem.getName()));
             }
         }
-
-        @Override
-        public String info() {
-            return String.format("%s. %s", this.key(), "Find item by id");
-        }
     }
     /**
      *  ShowItems class menu chapter for showing items from current storage.
@@ -260,7 +290,16 @@ public class MenuTracker {
      * @version 1
      * @since 07.03.2017
      */
-    private static class ShowItems implements UserAction {
+    private static class ShowItems extends BaseAction {
+        /**
+         * ShowItems class constructor.
+         *
+         * @param name  set decription for the action
+         */
+        ShowItems(String name) {
+            super(name);
+        }
+
         @Override
         public int key() {
             return 2;
@@ -276,11 +315,6 @@ public class MenuTracker {
                     output.toOutput(String.format("%s. %s", item.getId(), item.getName()));
                 }
             }
-        }
-
-        @Override
-        public String info() {
-            return String.format("%s. %s", this.key(), "Show all items");
         }
     }
 }

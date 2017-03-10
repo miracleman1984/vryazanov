@@ -1,7 +1,7 @@
 package tracker.start;
 
 /**
- *  UserAction interface whith actions for menu chapters.
+ *  UserAction interface with actions for menu chapters.
  *
  * @author Vitaly Ryazanov miracleman@mail.ru
  * @version 1
