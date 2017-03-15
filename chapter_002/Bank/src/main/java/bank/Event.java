@@ -1,7 +1,11 @@
 package bank;
 
 /**
- * Created by vr on 15.03.2017.
+ * Event class that stores unique properties and methods for all events.
+ *
+ * @author Vitaly Ryazanov miracleman@mail.ru
+ * @version 1
+ * @since 15.03.2017
  */
 public abstract class Event {
     private int eventType;
