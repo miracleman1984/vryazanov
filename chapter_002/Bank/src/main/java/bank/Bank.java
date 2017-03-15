@@ -69,9 +69,9 @@ public class Bank {
         return map;
     }
 
-    public static void main(String[] args) {
-        Bank bank = new Bank(8,20, new Event[] {new In(9), new In(9), new Out(11),new In(12)});
-        bank.findMaxLoad(bank.createTimetable());
-    }
+//    public static void main(String[] args) {
+//        Bank bank = new Bank(8,20, new Event[] {new In(9), new In(9), new Out(11),new In(12)});
+//        bank.findMaxLoad(bank.createTimetable());
+//    }
 
 }
