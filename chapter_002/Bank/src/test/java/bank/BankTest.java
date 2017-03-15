@@ -70,4 +70,19 @@ public class BankTest {
         final Long[] expectedOutput = new Long[]{10L, 13L};
         assertThat(result, is(Arrays.asList(expectedOutput)));
     }
+    /**
+     *If nobody in bank all day.
+     */
+    @Test
+    public void whenAllDayNobodyShowZero() {
+        Bank bank = new Bank(8,20, new Event[] {});
+        ArrayList<TimeRange> timeRanges = bank.findMaxLoad(bank.createTimetable());
+        ArrayList<Long> result = new ArrayList<Long>();
+        for (TimeRange timeRange : timeRanges) {
+            result.add(timeRange.getTimeFrom());
+            result.add(timeRange.getTimeTo());
+        }
+        final Long[] expectedOutput = new Long[]{};
+        assertThat(result, is(Arrays.asList(expectedOutput)));
+    }
 }

@@ -18,10 +18,6 @@ public class Bank {
         this.eventlog = events;
     }
 
-
-    public void addEvent(Event event){
-    }
-
     public ArrayList<TimeRange> findMaxLoad(HashMap<Long, Integer> map){
         ArrayList<TimeRange> result = new ArrayList<TimeRange>();
         long timeFrom = this.opens;
@@ -36,14 +32,11 @@ public class Bank {
         while (it.hasNext())
         {
             Map.Entry<Long, Integer> item = (Map.Entry) it.next();
-            System.out.println(item.getKey() + " " + item.getValue());
             if (item.getValue() == max) {
                 timeFrom = item.getKey();
-                System.out.println("ok");
                 if (it.hasNext()){
                     timeTo =  ((Map.Entry<Long, Integer>) it.next()).getKey();
                 }
-                System.out.println(timeFrom + " " + timeTo);
                 result.add(new TimeRange(timeFrom,timeTo));
                 timeTo = this.closes;
             }
