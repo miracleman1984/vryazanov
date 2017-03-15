@@ -14,5 +14,6 @@
         <module>Tracker</module>
 		<module>paint</module>
         <module>Chess</module>
+        <module>Bank</module>
     </modules>
 </project>
