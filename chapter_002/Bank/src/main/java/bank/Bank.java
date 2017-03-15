@@ -8,22 +8,46 @@ import java.util.Iterator;
 import java.util.Map;
 
 /**
- * Created by vr on 15.03.2017.
+ * Bank class that stores unique properties and methods for all items.
+ *
+ * @author Vitaly Ryazanov miracleman@mail.ru
+ * @version 1
+ * @since 15.03.2017
  */
 public class Bank {
+    /**
+     * Store when bank is opens.
+     */
     private long opens;
+    /**
+     * Store when bank is closes.
+     */
     private long closes;
+    /**
+     * Store bank eventlog.
+     */
     private Event[] eventlog;
 
-
-
+    /**
+     * Bank class constructor.
+     *
+     * @param opens  when bank is opens
+     * @param closes when bank is closes
+     * @param events set bank eventlog
+     */
     public Bank(long opens, long closes, Event[] events) {
         this.opens = opens;
         this.closes = closes;
         this.eventlog = events;
     }
 
-    public ArrayList<TimeRange> findMaxLoad(HashMap<Long, Integer> map){
+    /**
+     * Return Timeranges when load was max.
+     *
+     * @param map incoming map of pairs time:load
+     * @return TimeRanges
+     */
+    public ArrayList<TimeRange> findMaxLoad(HashMap<Long, Integer> map) {
         ArrayList<TimeRange> result = new ArrayList<TimeRange>();
         long timeFrom = this.opens;
         long timeTo = this.closes;
@@ -34,15 +58,14 @@ public class Bank {
             }
         }
         Iterator it = map.entrySet().iterator();
-        while (it.hasNext())
-        {
+        while (it.hasNext()) {
             Map.Entry<Long, Integer> item = (Map.Entry) it.next();
             if (item.getValue() == max) {
                 timeFrom = item.getKey();
-                if (it.hasNext()){
-                    timeTo =  ((Map.Entry<Long, Integer>) it.next()).getKey();
+                if (it.hasNext()) {
+                    timeTo = ((Map.Entry<Long, Integer>) it.next()).getKey();
                 }
-                result.add(new TimeRange(timeFrom,timeTo));
+                result.add(new TimeRange(timeFrom, timeTo));
                 timeTo = this.closes;
             }
         }
@@ -50,14 +73,15 @@ public class Bank {
         return result;
     }
 
-    public TimeRange findMinLoad(){
-        return null;
-    }
-
-    public HashMap<Long, Integer> createTimetable(){
+    /**
+     * Return timetable with pairs time:load.
+     *
+     * @return timetable
+     */
+    public HashMap<Long, Integer> createTimetable() {
         LinkedHashMap<Long, Integer> map = new LinkedHashMap<Long, Integer>();
         int count = 0;
-        for (Event event: eventlog) {
+        for (Event event : eventlog) {
             long eventTime = event.getTime();
             int increment = (event.getEventType() == 1) ? 1 : -1;
             count += increment;
