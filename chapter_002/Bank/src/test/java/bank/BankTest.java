@@ -55,8 +55,19 @@ public class BankTest {
         final Long[] expectedOutput = new Long[]{9L, 10L, 13L, 14L};
         assertThat(result, is(Arrays.asList(expectedOutput)));
     }
-
-
-
-
+    /**
+     * If two clients go in and out in different time for 2 times.
+     */
+    @Test
+    public void whenTwoClientGoInOutThenShowWhenItWas() {
+        Bank bank = new Bank(8,20, new Event[] {new In(9), new In(10), new Out(13), new Out(14)});
+        ArrayList<TimeRange> timeRanges = bank.findMaxLoad(bank.createTimetable());
+        ArrayList<Long> result = new ArrayList<Long>();
+        for (TimeRange timeRange : timeRanges) {
+            result.add(timeRange.getTimeFrom());
+            result.add(timeRange.getTimeTo());
+        }
+        final Long[] expectedOutput = new Long[]{10L, 13L};
+        assertThat(result, is(Arrays.asList(expectedOutput)));
+    }
 }

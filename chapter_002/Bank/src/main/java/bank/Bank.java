@@ -36,15 +36,17 @@ public class Bank {
         while (it.hasNext())
         {
             Map.Entry<Long, Integer> item = (Map.Entry) it.next();
+            System.out.println(item.getKey() + " " + item.getValue());
             if (item.getValue() == max) {
                 timeFrom = item.getKey();
+                System.out.println("ok");
+                if (it.hasNext()){
+                    timeTo =  ((Map.Entry<Long, Integer>) it.next()).getKey();
+                }
+                System.out.println(timeFrom + " " + timeTo);
+                result.add(new TimeRange(timeFrom,timeTo));
+                timeTo = this.closes;
             }
-            if (it.hasNext()){
-                timeTo =  ((Map.Entry<Long, Integer>) it.next()).getKey();
-            }
-            System.out.println(timeFrom + " " + timeTo);
-            result.add(new TimeRange(timeFrom,timeTo));
-            timeTo = this.closes;
         }
         System.out.println(max);
         return result;
