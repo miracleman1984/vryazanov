@@ -17,9 +17,6 @@ import static org.junit.Assert.assertThat;
  */
 
 
-/**
- * Created by vr on 15.03.2017.
- */
 public class EventTrackerTest {
     /**
      * If one client go in and out in different time.
