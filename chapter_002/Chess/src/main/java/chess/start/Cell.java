@@ -1,5 +1,7 @@
 package chess.start;
 
+import chess.figures.Figure;
+
 /**
  * Cell class that stores coordinates X and Y for the cell.
  *
@@ -16,6 +18,10 @@ public class Cell {
      * Store y coordinate.
      */
     private int y;
+    /**
+     * Store figure in cell coordinate.
+     */
+    private Figure figure;
 
     /**
      * Cell class constructor.
@@ -24,6 +30,7 @@ public class Cell {
      * @param y set y coordinate
      */
     public Cell(int x, int y) {
+        // - сделать проверку на нахождение на доске?
         this.x = x;
         this.y = y;
     }

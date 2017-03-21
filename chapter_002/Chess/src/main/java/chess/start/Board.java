@@ -11,6 +11,7 @@ import java.util.ArrayList;
  * Created by vr on 12.03.2017.
  */
 public class Board {
+
     /**
      * Store figures on the board.
      */
@@ -19,12 +20,15 @@ public class Board {
      * Store size of the board.
      */
     private final int size = 8;
+    private Cell[][] board = new Cell[size][size];
     /**
      * Board class constructor.
      *
      * @param figures  set figures on the board
      */
     public Board(Figure[] figures) {
+        //инициализация доски стоящими на ней фигурами.
+        //пустые ячейки в поле фигура стоят нули
         this.figures = figures;
     }
     /**
@@ -65,8 +69,17 @@ public class Board {
                 throw new OccupiedWayException("Way is occupied by another figure (s) ");
             }
         }
+        // непонятно как может вернуться ложь....
         result = true;
-        sourceFigure.clone(dist);
+        // - замена фигуры в массиве фигур доски на новую
+        for (int i = 0; i < figures.length; i++) {
+            System.out.println(figures[i].getPosition());
+            if (figures[i].getPosition() == source) {
+                figures[i] = sourceFigure.clone(dist);
+                System.out.println(figures[i].getPosition());
+                break;
+            }
+        }
         return result;
     }
     /**
