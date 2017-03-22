@@ -8,7 +8,9 @@
 	<modules>
 		<module>chapter_001</module>
         <module>chapter_002</module>
-	</modules>
+        <module>chapter_0051</module>
+        <module>chapter_005lite</module>
+    </modules>
 
 	
 	<properties>

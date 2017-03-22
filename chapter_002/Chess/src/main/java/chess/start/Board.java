@@ -64,6 +64,7 @@ public class Board {
             }
         }
         ArrayList<Cell> cells = sourceFigure.way(dist);
+        cells.
         for (Cell cell : cells) {
             if (isFigureInCell(cell)) {
                 throw new OccupiedWayException("Way is occupied by another figure (s) ");
