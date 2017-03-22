@@ -21,9 +21,9 @@ public class UserConvertTest {
     @Test
     public void whenConvertListOfUserToHashMapByIdThenMapShouldFormsAsExpected() {
         List<User> list = new ArrayList<User>();
-        User user1 = new User(1, "Vitaly", "SPB");
-        User user2 = new User(2, "Vital", "SP");
-        User user3 = new User(3, "Vita", "S");
+        User user1 = new User(1, "Vitaly", 20, "SPB");
+        User user2 = new User(2, "Vital", 25, "SP");
+        User user3 = new User(3, "Vita", 30, "S");
         list.add(user1);
         list.add(user2);
         list.add(user3);
