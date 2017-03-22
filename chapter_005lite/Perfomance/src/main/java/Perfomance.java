@@ -55,7 +55,7 @@ public class Perfomance {
 
     public static void main(String[] args) {
         // количество строк в коллекции для теста
-        int number = 100000;
+        int number = 500000;
         // инициализация тестируемых коллекций
         ArrayList<String> stringArrayList = new ArrayList<String>();
         LinkedList<String> stringLinkedList = new LinkedList<String>();
@@ -65,7 +65,6 @@ public class Perfomance {
         for (int i = 0; i < number; i++) {
             strings[i] = createRandomString();
         }
-
         System.out.println("Операция вставки");
         System.out.println("ArrayList: " + Perfomance.add(stringArrayList, strings, number));
         System.out.println("LinkedList: " + Perfomance.add(stringLinkedList, strings, number));
@@ -74,8 +73,5 @@ public class Perfomance {
         System.out.println("ArrayList: " +Perfomance.delete(stringArrayList, number));
         System.out.println("LinkedList: " + Perfomance.delete(stringLinkedList, number));
         System.out.println("TreeSet: " +Perfomance.delete(stringTreeSet, number));
-
-
-
     }
 }
