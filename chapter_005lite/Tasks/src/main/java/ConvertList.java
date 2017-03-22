@@ -4,7 +4,7 @@ import java.util.List;
 
 /**
  * Class  ConvertList.
- * <p>
+ *
  * Converts List to Array and Array to List.
  *
  * @author vryazanov
