@@ -1,5 +1,7 @@
 package tracker.start;
 
+import java.util.ArrayList;
+
 /**
  * StartUI initialize the program and main logic..
  *
@@ -11,7 +13,7 @@ public class StartUI {
     /**
      * Store ranges that menu can operates.
      */
-    private int[] ranges;
+    private ArrayList<Integer> ranges;
     /**
      * Store input method.
      */
@@ -45,7 +47,7 @@ public class StartUI {
         System.out.println("This is a task tracker");
         MenuTracker menu = new MenuTracker(this.input, this.output, this.tracker);
         menu.fillActions();
-        int[] ranges = menu.getRange();
+        ArrayList<Integer> ranges = menu.getRange();
         do {
             menu.show();
             menu.select(input.ask("select: ", ranges, this.output));

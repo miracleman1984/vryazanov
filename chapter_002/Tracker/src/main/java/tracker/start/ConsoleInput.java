@@ -1,5 +1,6 @@
 package tracker.start;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -24,7 +25,7 @@ public class ConsoleInput implements Input {
     }
 
     @Override
-    public int ask(String question, int[] range, Output output) {
+    public int ask(String question, ArrayList<Integer> range, Output output) {
         int key = Integer.valueOf(this.ask(question));
         boolean exist = false;
         for (int value : range) {

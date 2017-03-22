@@ -1,5 +1,7 @@
 package tracker.start;
 
+import java.util.ArrayList;
+
 /**
  * Input interface add ability to ask a key a do something with input.
  * @author Vitaly Ryazanov miracleman@mail.ru
@@ -21,5 +23,5 @@ public interface Input {
      * @param output next questions will come to the specific output
      * @return something that was inputted and verified to int
      */
-    int ask(String question, int[] range, Output output);
+    int ask(String question, ArrayList<Integer> range, Output output);
 }

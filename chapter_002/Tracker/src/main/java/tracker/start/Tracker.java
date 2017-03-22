@@ -3,6 +3,7 @@ package tracker.start;
 import tracker.models.Item;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 
 /**
@@ -16,11 +17,7 @@ public class Tracker {
     /**
      * Store items.
      */
-    private Item[] items = new Item[10];
-    /**
-     * Store current position in items.
-     */
-    private int position = 0;
+    private ArrayList<Item> items = new ArrayList<Item>();
     /**
      * Store current last added id.
      */
@@ -38,13 +35,11 @@ public class Tracker {
      */
     public boolean add(Item item) {
         boolean result = false;
-        if (position != items.length) {
-            if (item.getId() == null) {
-                item.setId(this.generateID());
-            }
-            this.items[position++] = item;
-            result = true;
+        if (item.getId() == null) {
+            item.setId(this.generateID());
         }
+        this.items.add(item);
+        result = true;
         return result;
     }
 
@@ -54,9 +49,10 @@ public class Tracker {
      * @param itemFill to update
      */
     public void update(Item itemFill) {
-        for (int index = 0; index != this.position; index++) {
-            if (this.items[index] != null && this.items[index].getId().equals(itemFill.getId())) {
-                this.items[index] = itemFill;
+        for (int i = 0; i < this.items.size(); i++) {
+            Item item = this.items.get(i);
+            if (item.getId().equals(itemFill.getId())) {
+                this.items.set(i, itemFill);
                 break;
             }
         }
@@ -70,15 +66,13 @@ public class Tracker {
      */
     public boolean delete(Item item) {
         boolean result = false;
-        for (int index = 0; index != this.position; index++) {
-            if (this.items[index] != null && this.items[index].getId().equals(item.getId())) {
-                if (index != this.position - 1) {
-                    this.items[index] = this.items[this.position - 1];
-                } else {
-                    this.items[index] = null;
-                }
-                this.position--;
+        Iterator<Item> iterator = this.items.listIterator();
+        while (iterator.hasNext()) {
+            Item currentItem = iterator.next();
+            if (currentItem.getId().equals(item.getId())) {
+                iterator.remove();
                 result = true;
+                System.out.println("ok");
                 break;
             }
         }
@@ -91,16 +85,14 @@ public class Tracker {
      * @param name to find
      * @return list of item that was found
      */
-    public Item[] findByName(String name) {
+    public ArrayList<Item> findByName(String name) {
         ArrayList<Item> resultList = new ArrayList<>();
         for (Item item : this.items) {
             if (item != null && item.getName().equals(name)) {
                 resultList.add(item);
             }
         }
-        Item[] resultArray = new Item[resultList.size()];
-        resultArray = resultList.toArray(resultArray);
-        return resultArray;
+        return resultList;
     }
 
     /**
@@ -136,11 +128,11 @@ public class Tracker {
      *
      * @return items from database
      */
-    public Item[] getAll() {
-        Item[] result = new Item[position];
-        for (int index = 0; index != this.position; index++) {
-            result[index] = this.items[index];
+    public ArrayList<Item> getAll() {
+        ArrayList<Item> resultList = new ArrayList<>();
+        for (Item item : this.items) {
+            resultList.add(item);
         }
-        return result;
+        return resultList;
     }
 }

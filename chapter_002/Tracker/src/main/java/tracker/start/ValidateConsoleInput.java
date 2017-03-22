@@ -1,5 +1,7 @@
 package tracker.start;
 
+import java.util.ArrayList;
+
 /**
  * ConsloleInput class show given message to System.out and return string with what a user type, that can be verified by range.
  * @author Vitaly Ryazanov miracleman@mail.ru
@@ -8,7 +10,7 @@ package tracker.start;
  */
 public class ValidateConsoleInput extends ConsoleInput {
     @Override
-    public int ask(String question, int[] range, Output output) {
+    public int ask(String question, ArrayList<Integer> range, Output output) {
         boolean invalid = true;
         int value = -1;
         do {

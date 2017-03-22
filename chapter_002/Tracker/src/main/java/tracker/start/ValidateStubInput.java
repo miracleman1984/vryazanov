@@ -1,5 +1,7 @@
 package tracker.start;
 
+import java.util.ArrayList;
+
 /**
  * StubInput class return string from a massive with answers, that can be verified by range if we want to.
  * @author Vitaly Ryazanov miracleman@mail.ru
@@ -16,11 +18,11 @@ public class ValidateStubInput extends StubInput {
     *
     * @param answers answers for input asking.
     */
-    public ValidateStubInput(String[] answers) {
+    public ValidateStubInput(ArrayList<String> answers) {
         super(answers);
     }
     @Override
-    public int ask(String question, int[] range, Output output) {
+    public int ask(String question, ArrayList<Integer> range, Output output) {
         boolean invalid = true;
         int value = -1;
         do {

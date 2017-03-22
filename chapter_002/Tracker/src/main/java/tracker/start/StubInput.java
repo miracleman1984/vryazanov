@@ -1,5 +1,7 @@
 package tracker.start;
 
+import java.util.ArrayList;
+
 /**
  * StubInput class return string from a massive with answers.
  * @author Vitaly Ryazanov miracleman@mail.ru
@@ -10,7 +12,7 @@ public class StubInput implements Input {
     /**
      * Store answers for input asking.
      */
-    private String[] answers;
+    private ArrayList<String> answers;
     /**
      * Store current position in massive.
      */
@@ -20,7 +22,7 @@ public class StubInput implements Input {
      *
      * @param answers answers for input asking.
      */
-    public StubInput(String[] answers) {
+    public StubInput(ArrayList<String> answers) {
         this.answers = answers;
     }
     /**
@@ -29,11 +31,11 @@ public class StubInput implements Input {
      * @return next answers element
      */
     public String ask(String question) {
-        return answers[position++];
+        return answers.get(position++);
     }
 
     @Override
-    public int ask(String question, int[] range, Output output) {
+    public int ask(String question, ArrayList<Integer> range, Output output) {
         int key = Integer.valueOf(this.ask(question));
         boolean exist = false;
         for (int value : range) {

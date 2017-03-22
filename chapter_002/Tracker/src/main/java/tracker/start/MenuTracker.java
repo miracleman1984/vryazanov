@@ -3,6 +3,8 @@ package tracker.start;
 import tracker.models.Item;
 import tracker.models.Task;
 
+import java.util.ArrayList;
+
 
 /**
  * EditItem class menu chapter for editing incoming item.
@@ -28,8 +30,8 @@ class EditItem extends BaseAction  {
 
     @Override
     public void execute(Input input, Output output, Tracker tracker) {
-        Item[] foundItems = tracker.getAll();
-        if (foundItems.length == 0) {
+        ArrayList<Item> foundItems = tracker.getAll();
+        if (foundItems.size() == 0) {
             output.toOutput("Nothing to edit");
         } else {
             String id = input.ask("Please,enter the task's id: ");
@@ -68,11 +70,7 @@ public class MenuTracker {
     /**
      * Store menu actions.
      */
-    private UserAction[] actions = new UserAction[6];
-    /**
-     * Store current menu position in actions.
-     */
-    private int position = 0;
+    private ArrayList<UserAction> actions = new ArrayList<UserAction>();
     /**
      * MenuTracker class constructor.
      *
@@ -89,12 +87,12 @@ public class MenuTracker {
      * Fill actions storage.
      */
     public void fillActions() {
-        this.actions[position++] = this.new AddItem("Add the new item");
-        this.actions[position++] = new MenuTracker.ShowItems("Show all items");
-        this.actions[position++] = new EditItem("Edit the item");
-        this.actions[position++] = new DeleteItem("Delete item by id");
-        this.actions[position++] = new FindItemByName("Find item by name");
-        this.actions[position++] = new FindItemByID("Find item by id");
+        this.actions.add(this.new AddItem("Add the new item"));
+        this.actions.add(new MenuTracker.ShowItems("Show all items"));
+        this.actions.add(new EditItem("Edit the item"));
+        this.actions.add(new DeleteItem("Delete item by id"));
+        this.actions.add(new FindItemByName("Find item by name"));
+        this.actions.add(new FindItemByID("Find item by id"));
     }
     /**
      * Add new action to the menu.
@@ -102,27 +100,20 @@ public class MenuTracker {
      * @param action new menu action
      */
     public void addAction(UserAction action) {
-        this.actions[position++] = action;
+        this.actions.add(action);
     }
     /**
      * Return range for menu chapter numbers.
      *
      * @return range with existing menu chapter numbers
      */
-    public int[] getRange() {
+    public ArrayList<Integer> getRange() {
         //test for null objects
-        int[] temp = new int[actions.length];
-        int i = 0;
+        ArrayList<Integer> result = new ArrayList<>();
         for (UserAction userAction : actions) {
             if (userAction != null) {
-                temp[i] = userAction.key();
-                i++;
+                result.add(userAction.key());
             }
-        }
-        int[] result = new int[i];
-        int k = 0;
-        for (int j : temp) {
-            result[k++] = j;
         }
         return result;
     }
@@ -133,8 +124,7 @@ public class MenuTracker {
      * @param key selected menu chapter
      */
     public void select(int key) {
-
-        this.actions[key - 1].execute(this.input, this.output, this.tracker);
+        this.actions.get(key - 1).execute(this.input, this.output, this.tracker);
     }
     /**
      * Show actions from storage.
@@ -199,8 +189,8 @@ public class MenuTracker {
 
         @Override
         public void execute(Input input, Output output, Tracker tracker) {
-            Item[] foundItems = tracker.getAll();
-            if (foundItems.length == 0) {
+            ArrayList<Item> foundItems = tracker.getAll();
+            if (foundItems.size() == 0) {
                 output.toOutput("Nothing to delete");
             } else {
                 String id = input.ask("Please,enter the task's id: ");
@@ -239,11 +229,11 @@ public class MenuTracker {
         @Override
         public void execute(Input input, Output output, Tracker tracker) {
             String name = input.ask("Please,enter the task's name to find: ");
-            Item[] foundItems = tracker.findByName(name);
-            if (foundItems.length == 0) {
+            ArrayList<Item> foundItems = tracker.findByName(name);
+            if (foundItems.size() == 0) {
                 output.toOutput("Nothing has been found.");
             } else {
-                output.toOutput(String.format("%s item(s) has been found.", foundItems.length));
+                output.toOutput(String.format("%s item(s) has been found.", foundItems.size()));
                 for (Item item : foundItems) {
                     output.toOutput(String.format("%s. %s", item.getId(), item.getName()));
                 }
@@ -307,8 +297,8 @@ public class MenuTracker {
 
         @Override
         public void execute(Input input, Output output, Tracker tracker) {
-            Item[] foundItems = tracker.getAll();
-            if (foundItems.length == 0) {
+            ArrayList<Item> foundItems = tracker.getAll();
+            if (foundItems.size() == 0) {
                 output.toOutput("No items to show");
             } else {
                 for (Item item : foundItems) {
