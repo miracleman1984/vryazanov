@@ -4,7 +4,7 @@ import java.util.List;
 
 /**
  * Class  ConvertList.
- *
+ * <p>
  * Converts List to Array and Array to List.
  *
  * @author vryazanov
@@ -14,6 +14,7 @@ import java.util.List;
 public class ConvertList {
     /**
      * Converts Array to List.
+     *
      * @param array to convert
      * @return List
      */
@@ -26,8 +27,10 @@ public class ConvertList {
         }
         return result;
     }
+
     /**
      * Converts List to Array.
+     *
      * @param list to convert
      * @param rows amount os rows in converted array
      * @return array
@@ -44,4 +47,23 @@ public class ConvertList {
         }
         return result;
     }
+
+    /**
+     * Converts List of int Arrays to List of ints.
+     *
+     * @param list of int Arrays
+     * @return List of ints
+     */
+
+    public List<Integer> convert(List<int[]> list) {
+        ArrayList<Integer> result = new ArrayList<Integer>();
+        for (int[] ints : list) {
+            for (int i : ints) {
+                result.add(i);
+            }
+        }
+        return result;
+    }
+
+
 }

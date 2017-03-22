@@ -1,6 +1,7 @@
 import org.junit.Test;
 
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -46,5 +47,18 @@ public class ConvertListTest {
         int[][] expectedOutput = new int[][]{{1, 2}, {3, 4}};
         int[][] answers = new ConvertList().toArray(source, 2);
         assertThat(answers, is(expectedOutput));
+    }
+    /**
+     * If converts list of int[] to list if int. Amount of elements in List is greater than in massive
+     */
+    @Test
+    public void whenConvertListOfIntMassivesToListOfIntsThenShouldBeAsExpected() {
+
+        ArrayList<int[]> list = new ArrayList<int[]>();
+        list.add(new int[]{1, 2});
+        list.add(new int[]{3, 4, 5, 6});
+        List<Integer> result = new ConvertList().convert(list);
+        List<Integer> expectedOutput = Arrays.asList(1, 2, 3, 4, 5, 6);
+        assertThat(result, is(expectedOutput));
     }
 }
