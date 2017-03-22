@@ -34,8 +34,6 @@ public class ConvertList {
      */
     public int[][] toArray(List<Integer> list, int rows) {
         int[][] result = new int[rows][rows];
-        System.out.println(list);
-        System.out.println(result);
         Iterator<Integer> iter = list.listIterator();
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < rows; j++) {
