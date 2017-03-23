@@ -24,19 +24,19 @@ public class User implements Comparable<User> {
      * Store user city.
      */
     private String city;
-
+    @Override
     public int compareTo(User o) {
         return this.age - o.getAge();
     }
 
     @Override
     public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", age=" + age +
-                ", city='" + city + '\'' +
-                '}';
+        return "User{"
+                + "id=" + id
+                + ", name='" + name + '\''
+                + ", age=" + age
+                + ", city='" + city + '\''
+                + '}';
     }
 
     /**
@@ -44,6 +44,7 @@ public class User implements Comparable<User> {
      *
      * @param id   unique id of the user
      * @param name of the user
+     * @param age of the user
      * @param city of the user
      */
     public User(int id, String name, int age, String city) {
