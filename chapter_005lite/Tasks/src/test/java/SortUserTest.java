@@ -36,4 +36,44 @@ public class SortUserTest {
         result.add(user3);
         assertThat(set, is(result));
     }
+
+    /**
+     * If sort users by their name lenght in ascening order.
+     */
+    @Test
+    public void whenSotingByNameLenghtThenMakeItAscening() {
+        List<User> list = new ArrayList<User>();
+        User user1 = new User(1, "Vitaly", 30, "SPB");
+        User user2 = new User(2, "Vital", 29, "SPB");
+        User user3 = new User(3, "Vitadfjklsg;", 28, "SPB");
+        list.add(user1);
+        list.add(user2);
+        list.add(user3);
+        List<User> result = new ArrayList<User>();
+        result.add(user2);
+        result.add(user1);
+        result.add(user3);
+        assertThat(SortUser.sortLength(list), is(result));
+    }
+
+    /**
+     * If sort users by their hashcode in ascening order.
+     */
+    @Test
+    public void whenSortingByHashcodeThenMakeItAscening() {
+        List<User> list = new ArrayList<User>();
+        User user1 = new User(1, "Vitaly", 30, "SPB");
+        User user2 = new User(2, "Vital", 29, "SPB");
+        list.add(user1);
+        list.add(user2);
+        List<User> result = new ArrayList<User>();
+        if (user1.hashCode() < user2.hashCode()) {
+            result.add(user1);
+            result.add(user2);
+        } else {
+            result.add(user2);
+            result.add(user1);
+        }
+        assertThat(SortUser.sortHash(list), is(result));
+    }
 }
