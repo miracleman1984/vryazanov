@@ -1,4 +1,4 @@
-package bank;
+package banks;
 
 /**
  * Created by vr on 17.03.2017.

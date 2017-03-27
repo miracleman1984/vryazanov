@@ -1,4 +1,4 @@
-package bank;
+package ru.vryazanov.bank;
 
 /**
  * Account class that stores unique properties and methods for all accounts.

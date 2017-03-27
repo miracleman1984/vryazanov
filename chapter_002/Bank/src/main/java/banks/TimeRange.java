@@ -1,4 +1,4 @@
-package bank;
+package banks;
 
 /**
  * TimeRange class that stores timeranges.

@@ -1,4 +1,4 @@
-package bank;
+package banks;
 
 /**
  * Event class that stores unique properties and methods for all events.

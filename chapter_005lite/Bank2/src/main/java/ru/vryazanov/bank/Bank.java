@@ -1,4 +1,4 @@
-package bank;
+package ru.vryazanov.bank;
 
 import java.util.ArrayList;
 import java.util.List;

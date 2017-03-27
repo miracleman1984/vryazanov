@@ -1,4 +1,6 @@
-package bank;
+package banks;
+
+import banks.Event;
 
 /**
  * Created by vr on 15.03.2017.

@@ -1,4 +1,4 @@
-package bank;
+package ru.vryazanov.bank;
 
 /**
  * NoSuchMoneyOnAccountExeption class that show errors when no such money exists on the account.

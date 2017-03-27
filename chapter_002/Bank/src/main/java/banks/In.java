@@ -1,4 +1,6 @@
-package bank;
+package banks;
+
+import banks.Event;
 
 /**
  * In class for event when somebosy go in.

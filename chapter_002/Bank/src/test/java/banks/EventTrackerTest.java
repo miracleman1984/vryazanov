@@ -1,5 +1,6 @@
-package bank;
+package banks;
 
+import banks.*;
 import org.junit.Test;
 
 import java.util.ArrayList;

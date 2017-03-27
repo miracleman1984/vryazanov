@@ -1,4 +1,4 @@
-package bank;
+package ru.vryazanov.bank;
 
 /**
  * AccountNotExistsExeption class that show errors when account not exists.

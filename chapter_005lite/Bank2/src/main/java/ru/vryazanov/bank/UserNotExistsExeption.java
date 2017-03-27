@@ -1,4 +1,4 @@
-package bank;
+package ru.vryazanov.bank;
 
 /**
  * UserNotExistsExeption class that show errors user not exists.
