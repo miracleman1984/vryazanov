@@ -1,3 +1,5 @@
+package ru.vryazanov.tasks;
+
 import org.junit.Test;
 
 import java.util.ArrayList;

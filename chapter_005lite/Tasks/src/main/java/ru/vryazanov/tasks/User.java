@@ -1,3 +1,5 @@
+package ru.vryazanov.tasks;
+
 /**
  * Class  User.
  * <p>

@@ -1,3 +1,5 @@
+package ru.vryazanov.tasks;
+
 import java.util.HashMap;
 import java.util.List;
 
