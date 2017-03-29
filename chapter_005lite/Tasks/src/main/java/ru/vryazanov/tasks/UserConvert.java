@@ -1,6 +1,7 @@
 package ru.vryazanov.tasks;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -25,5 +26,7 @@ public class UserConvert {
             result.put(user.getId(), user);
         }
         return result;
+
+        LinkedList
     }
 }
