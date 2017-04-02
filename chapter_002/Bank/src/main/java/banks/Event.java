@@ -1,5 +1,7 @@
 package banks;
 
+import java.util.Date;
+
 /**
  * Event class that stores unique properties and methods for all events.
  *
@@ -15,14 +17,14 @@ public abstract class Event {
     /**
      * Store time when this event happened.
      */
-    private long time;
+    private Date time;
     /**
      * Event class constructor.
      *
      * @param id  type of event
      * @param time when this event happened
      */
-     public Event(int id, long time) {
+     public Event(int id, Date time) {
         this.eventType = id;
         this.time = time;
     }
@@ -39,7 +41,7 @@ public abstract class Event {
      *
      * @return time when this event happened
      */
-    public long getTime() {
+    public Date getTime() {
         return time;
     }
 }

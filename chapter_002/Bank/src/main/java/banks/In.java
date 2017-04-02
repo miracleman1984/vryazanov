@@ -1,6 +1,7 @@
 package banks;
 
-import banks.Event;
+
+import java.util.Date;
 
 /**
  * In class for event when somebosy go in.
@@ -14,16 +15,14 @@ public class In extends Event {
      * In class constructor.
      *
      */
-    public In() {
-        super(1, System.currentTimeMillis());
-    }
+
     /**
      * In class constructor.
      *
      * @param time when event happened
      *
      */
-    public In(long time) {
+    public In(Date time) {
         super(1, time);
     }
 }

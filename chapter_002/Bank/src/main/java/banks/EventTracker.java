@@ -1,10 +1,7 @@
 package banks;
 
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Bank class that stores unique properties and methods for all items.
@@ -14,15 +11,15 @@ import java.util.Map;
  * @since 15.03.2017
  */
 public class EventTracker {
-
+    private List<Visitor> visitors;
     /**
      * Store when bank is opens.
      */
-    private long opens;
+    private Date opens;
     /**
      * Store when bank is closes.
      */
-    private long closes;
+    private Date closes;
     /**
      * Store bank eventlog.
      */
@@ -46,10 +43,11 @@ public class EventTracker {
      * @param opens  when bank is opens
      * @param closes when bank is closes
      */
-    public EventTracker(long opens, long closes) {
+    public EventTracker(Date opens, Date closes) {
         this.opens = opens;
         this.closes = closes;
         this.isErrorLog = false;
+        this.visitors = new ArrayList<Visitor>();
     }
 
     /**
@@ -62,20 +60,13 @@ public class EventTracker {
     }
 
     /**
-     * Add new event.
+     * Add new visitior.
      *
-     * @param event to be added to log
+     * @param visitor to be added to log
      */
-    public void add(Event event) {
-        try {
-            this.testAddToEventlog(event.getEventType());
-            this.eventlog.add(event);
-        } catch (ConsistenceErrorException e) {
-            if (this.isErrorLog) {
-                this.errorLog.add("Вышло больше чем вошло Время: " + event.getTime());
-                this.wrongEventslog.add(event);
-            }
-        }
+    public void add(Visitor visitor) {
+            this.eventlog.add(new In(visitor.in));
+            this.eventlog.add(new Out(visitor.out));
     }
 
     /**
@@ -105,37 +96,37 @@ public class EventTracker {
         }
 
     }
-
     /**
      * Return Timeranges when load was max.
      *
      * @return TimeRanges
      */
     public ArrayList<TimeRange> findMaxLoad() {
-        LinkedHashMap<Long, Integer> map = this.createTimetable();
+        Map<Date, Integer> map = this.createTimetable();
         ArrayList<TimeRange> result = new ArrayList<TimeRange>();
-        long timeFrom = this.opens;
-        long timeTo = this.closes;
+        Date timeFrom = this.opens;
+        Date timeTo = this.closes;
         int count = 0;
         for (Event event : eventlog) {
-            long eventTime = event.getTime();
+            Date eventTime = event.getTime();
             int increment = (event.getEventType() == 1) ? 1 : -1;
             count += increment;
+           // System.out.println(eventTime + "  "+ count);
             map.put(eventTime, count);
         }
         int max = 0;
-        for (Map.Entry<Long, Integer> pair : map.entrySet()) {
+        for (Map.Entry<Date, Integer> pair : map.entrySet()) {
             if (pair.getValue() > max) {
                 max = pair.getValue();
             }
         }
         Iterator it = map.entrySet().iterator();
         while (it.hasNext()) {
-            Map.Entry<Long, Integer> item = (Map.Entry) it.next();
+            Map.Entry<Date, Integer> item = (Map.Entry) it.next();
             if (item.getValue() == max) {
                 timeFrom = item.getKey();
                 if (it.hasNext()) {
-                    timeTo = ((Map.Entry<Long, Integer>) it.next()).getKey();
+                    timeTo = ((Map.Entry<Date, Integer>) it.next()).getKey();
                 }
                 result.add(new TimeRange(timeFrom, timeTo));
                 timeTo = this.closes;
@@ -150,14 +141,20 @@ public class EventTracker {
      *
      * @return timetable
      */
-    public LinkedHashMap<Long, Integer> createTimetable() {
-        LinkedHashMap<Long, Integer> map = new LinkedHashMap<Long, Integer>();
+    public Map<Date, Integer> createTimetable() {
+        Collections.sort(eventlog, new Comparator<Event>() {
+            public int compare(Event o1, Event o2) {
+                return o1.getTime().compareTo(o2.getTime());
+            }
+        });
+        Map<Date, Integer> map = new TreeMap<Date, Integer>();
         int count = 0;
         for (Event event : eventlog) {
-            long eventTime = event.getTime();
+            Date eventTime = event.getTime();
             int increment = (event.getEventType() == 1) ? 1 : -1;
             count += increment;
-            if (eventTime >= opens && eventTime <= closes) {
+            if (eventTime.compareTo(opens) >= 0 && eventTime.compareTo(closes) <= 0) {
+                System.out.println(eventTime + " " + count);
                 map.put(eventTime, count);
             }
         }

@@ -3,6 +3,8 @@ package banks;
 import banks.Event;
 import banks.EventTracker;
 
+import java.util.List;
+
 /**
  * StartUI initialize the program and main logic..
  *
@@ -18,7 +20,7 @@ public class StartUI {
     /**
      * Store events for adding when program initializing.
      */
-    private Event[] startingEvents;
+    private List<Visitor> startingVisitors;
     /**
      * Store is Error Log will be.
      */
@@ -27,12 +29,12 @@ public class StartUI {
      * StartUI class constructor.
      *
      * @param eventTracker  current event tracker.
-     * @param startingEvents events for adding when program initializing.
+     * @param startingVisitors
      * @param isLog is Error Log will be.
      */
-    public StartUI(EventTracker eventTracker, Event[] startingEvents, boolean isLog) {
+    public StartUI(EventTracker eventTracker, List<Visitor> startingVisitors, boolean isLog) {
         this.eventTracker = eventTracker;
-        this.startingEvents = startingEvents;
+        this.startingVisitors = startingVisitors;
         this.isErrorLog = isLog;
     }
     /**
@@ -41,8 +43,8 @@ public class StartUI {
      */
     public void init() {
         eventTracker.setLogLevel(isErrorLog);
-        for (Event event: startingEvents) {
-            eventTracker.add(event);
+        for (Visitor visitor: startingVisitors) {
+            eventTracker.add(visitor);
         }
     }
 }

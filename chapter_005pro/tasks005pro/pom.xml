@@ -2,24 +2,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-
-    <modelVersion>4.0.0</modelVersion>
-
-    <artifactId>chapter_005lite</artifactId>
-    <packaging>pom</packaging>
-
     <parent>
-        <artifactId>vryazanov</artifactId>
+        <artifactId>chapter_005pro</artifactId>
         <groupId>ru.job4j</groupId>
         <version>2.0</version>
     </parent>
+    <modelVersion>4.0.0</modelVersion>
 
-    <modules>
-        <module>Perfomance</module>
-        <module>Tasks</module>
-        <module>Bank2</module>
-        <module>hierachy</module>
-    </modules>
+    <artifactId>tasks005pro</artifactId>
 
 
 </project>
