@@ -3,22 +3,30 @@ package ru.vryazanov.tasks5;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+import java.util.NoSuchElementException;
 
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 /**
- * Created by vr on 04.04.2017.
+ * Test for class  NewIterator.
+ *
+ * @author vryazanov
+ * @version 1.0
+ * @since 02.04.2017
  */
-
-
-
-
-
 public class NewIteratorTest {
-    public Iterator<Integer> iterator;
-
+    /**
+     * Store iterator for testing.
+     */
+    private Iterator<Integer> iterator;
+    /**
+     * Before each test preparing iterator.
+     */
     @Before
     public void setUp() {
         ArrayList<Integer> list1 = new ArrayList<Integer>(Arrays.asList(2, 3));
@@ -30,7 +38,9 @@ public class NewIteratorTest {
         NewIterator newIterator = new NewIterator();
         iterator = newIterator.convert(iteratorIterator);
     }
-
+    /**
+     * If Get Next Call There Is Next Iterator should Pointer Forward.
+     */
     @Test
     public void whenGetNextCallAndThereIsNextIteratorShouldPointerForward() {
         iterator.next();
@@ -39,7 +49,9 @@ public class NewIteratorTest {
 
         assertThat(result, is(1));
     }
-
+    /**
+     * If Check Next Position And Have Next Iterator.
+     */
     @Test
     public void whenCheckNextPositionAndHaveNextIteratorShouldReturnConstantValue() {
 
@@ -50,7 +62,9 @@ public class NewIteratorTest {
 
         assertThat(result, is(true));
     }
-
+    /**
+     * If Check Next Position And Have No Next Iterator.
+     */
     @Test
     public void whenCheckNextPositionAndHaveNoNextIteratorShouldReturnConstantValue() {
 
@@ -63,7 +77,9 @@ public class NewIteratorTest {
 
         assertThat(result, is(false));
     }
-
+    /**
+     * If Get Next Call And There No Next Iterator.
+     */
     @Test(expected = NoSuchElementException.class)
     public void whenGetNextCallAndThereNoNextIteratorShouldReturnError() {
 
