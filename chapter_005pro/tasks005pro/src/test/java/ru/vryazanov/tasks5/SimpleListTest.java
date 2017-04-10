@@ -18,6 +18,7 @@ public class SimpleListTest {
      * Store array for testing.
      */
     private SimpleList list;
+
     /**
      * Before each test preparing array.
      */
@@ -30,6 +31,7 @@ public class SimpleListTest {
         list.add("One2");
         list.add("One3");
     }
+
     /**
      * If Create Container Should Return Same Type.
      */
@@ -38,6 +40,7 @@ public class SimpleListTest {
         list.get(1);
         assertThat((String) list.get(1), is("One1"));
     }
+
     /**
      * If Create Container Should Return Same Type.
      */
@@ -46,6 +49,7 @@ public class SimpleListTest {
         list.update(2, "Two2");
         assertThat((String) list.get(2), is("Two2"));
     }
+
     /**
      * If Delete Element By Value Then Should Return Array Without Value.
      */
@@ -55,6 +59,7 @@ public class SimpleListTest {
         assertThat((String) list.get(3), is("One3"));
         assertThat(list.getIndex(), is(3));
     }
+
     /**
      * If Delete Element On Position Then Should Return Array Without On This Position.
      */

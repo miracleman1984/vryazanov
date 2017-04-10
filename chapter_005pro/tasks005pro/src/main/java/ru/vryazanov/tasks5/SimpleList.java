@@ -1,5 +1,6 @@
 package ru.vryazanov.tasks5;
 
+
 /**
  * SimpleList class
  * <p>
@@ -8,7 +9,7 @@ package ru.vryazanov.tasks5;
  * @param <T> any type of the generic
  * @author vryazanov
  * @version 1.0
- * @since 08.04.2017
+ * @since 02.04.2017
  */
 public class SimpleList<T> {
     /**
@@ -56,7 +57,22 @@ public class SimpleList<T> {
      * @param newValue new value
      */
     public void update(int position, T newValue) {
+
         this.objects[position - 1] = newValue;
+    }
+
+    /**
+     * Change element on the position by the value.
+     *
+     * @param oldValue that should be changed
+     * @param newValue new value
+     */
+    public void update(T oldValue, T newValue) {
+        for (int i = 0; i < index; i++) {
+            if (this.objects[i].equals(oldValue)) {
+                this.objects[i] = newValue;
+            }
+        }
     }
 
     /**
@@ -66,13 +82,16 @@ public class SimpleList<T> {
      */
     public void delete(T value) {
         //todo: delete all objects with this value
-        for (int i = 0; i < index; i++) {
-            if (this.objects[i].equals(value)) {
-                System.arraycopy(this.objects, i + 1, this.objects, i, this.objects.length - i - 1);
+        int count = 0;
+        for (int i = 1; i <= this.index; i++) {
+            if (value.equals(this.objects[i])) {
+                System.arraycopy(this.objects, i + 1, this.objects, i, this.index - i - 1);
+                i--;
                 index--;
             }
         }
     }
+
     /**
      * Delete element in the array by the position.
      *
@@ -84,9 +103,9 @@ public class SimpleList<T> {
         index--;
     }
     /**
-     * Return current length of the array.
+     * Return current index.
      *
-     * @return  current length of the array
+     * @return Return current index.
      */
     public int getIndex() {
         return index;
