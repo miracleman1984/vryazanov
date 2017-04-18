@@ -25,6 +25,7 @@ public interface ListAnalogy<E> extends Iterable<E> {
      * And move forward the pointer (index)
      *
      * @param value adding value
+     *
      */
     void add(E value);
 

@@ -123,6 +123,7 @@ public class DynamicList<E> implements ListAnalogy<E> {
                 result = true;
             }
         }
+
         return result;
     }
 

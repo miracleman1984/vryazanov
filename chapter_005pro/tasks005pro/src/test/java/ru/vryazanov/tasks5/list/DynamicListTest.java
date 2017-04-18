@@ -78,6 +78,7 @@ public class DynamicListTest {
         iterator.next();
         iterator.next();
         assertThat(iterator.hasNext(), is(false));
+
     }
     /**
      * If iterate through array and check elements.
