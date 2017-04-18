@@ -74,7 +74,6 @@ public class SimpleList<T> {
             }
         }
     }
-
     /**
      * Delete element in the array by the value.
      *
