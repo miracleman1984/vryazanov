@@ -15,7 +15,7 @@ public class SimpleList<T> {
     /**
      * Store internal massive of objects.
      */
-    private Object[] objects;
+    private   Object[] objects;
     /**
      * Store curent lenght of the array.
      */
