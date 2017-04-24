@@ -1,6 +1,7 @@
 package ru.vryazanov.tasks5.list;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * DynamicLinkedList class
@@ -92,6 +93,7 @@ public class DynamicLinkedList<E> implements Iterable<E> {
                 currentNode = currentNode.next;
                 return result;
             }
+
             //удаляет текущий элемент - он существует
             @Override
             public void remove() {
@@ -130,10 +132,12 @@ public class DynamicLinkedList<E> implements Iterable<E> {
          * Store next node of the list.
          */
         private Node<E> next;
+
         /**
          * Node constructor.
-         * @param item set value for the node
-         * @param next set next node of the list
+         *
+         * @param item     set value for the node
+         * @param next     set next node of the list
          * @param previous set previous node of the list
          */
         Node(E item, Node<E> previous, Node<E> next) {
@@ -150,5 +154,39 @@ public class DynamicLinkedList<E> implements Iterable<E> {
      */
     public int size() {
         return size;
+    }
+
+    /**
+     * Remove first element of internal array.
+     *
+     * @return deleted element.
+     */
+    public E removeFirst() {
+        E result = this.first.item;
+        if (this.size > 1) {
+            this.first.next.previous = null;
+            this.first = this.first.next;
+        } else if (this.size == 0) {
+            throw new NoSuchElementException();
+        }
+        size--;
+        return result;
+    }
+
+    /**
+     * Remove last element of internal array.
+     *
+     * @return deleted element.
+     */
+    public E removeLast() {
+        E result = this.last.item;
+        if (this.size > 1) {
+            this.last.previous.next = null;
+            this.last = this.last.previous;
+        } else if (this.size == 0) {
+            throw new NoSuchElementException();
+        }
+        size--;
+        return result;
     }
 }
