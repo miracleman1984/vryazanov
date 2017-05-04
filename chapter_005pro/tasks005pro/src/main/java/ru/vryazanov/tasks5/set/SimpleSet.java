@@ -31,6 +31,7 @@ public class SimpleSet<E> implements MySet<E> {
      * Store current size of internal array.
      */
     private int size;
+
     /**
      * SimpleSet dafault constructor.
      */
@@ -46,6 +47,7 @@ public class SimpleSet<E> implements MySet<E> {
 
         objects = Arrays.copyOf(objects, 2 * index);
     }
+
     /**
      * Testing is element already is in the internal arrayn.
      *
@@ -55,13 +57,14 @@ public class SimpleSet<E> implements MySet<E> {
     public boolean duplicateTest(E e) {
         boolean result = false;
         for (Object object : objects) {
-            if (object.equals(e)) {
+            if (e.equals(object)) {
                 result = true;
                 break;
             }
         }
         return result;
     }
+
     /**
      * Add new element into the array.
      * And move forward the pointer (index)
@@ -82,11 +85,11 @@ public class SimpleSet<E> implements MySet<E> {
 
         return new SimpleSet.Itr();
     }
+
     /**
      * Itr class
      * <p>
      * Class that defining internal iterator.
-     *
      */
     private class Itr implements Iterator<E> {
         /**
