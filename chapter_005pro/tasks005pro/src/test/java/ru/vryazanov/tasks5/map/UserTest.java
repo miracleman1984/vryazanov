@@ -22,6 +22,8 @@ public class UserTest {
         User user2 = new User("Vitaly", 2, date1);
         Map<User, Object> map = new HashMap<User, Object>();
         map.put(user1, "first");
+        System.out.println(user1.hashCode());
+        System.out.println(user2.hashCode());
         map.put(user2, "second");
         System.out.println(map);
     }
