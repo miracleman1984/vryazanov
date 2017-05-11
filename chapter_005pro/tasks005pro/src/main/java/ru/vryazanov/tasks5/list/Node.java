@@ -10,7 +10,7 @@ package ru.vryazanov.tasks5.list;
  * @version 1.0
  * @since 25.04.2017
  */
-public class Node<T> {
+class Node<T> {
     /**
      * Store internal value.
      */
@@ -25,7 +25,7 @@ public class Node<T> {
      *
      * @param value set value for the node
      */
-    public Node(T value) {
+    Node(T value) {
         this.value = value;
     }
     /**
