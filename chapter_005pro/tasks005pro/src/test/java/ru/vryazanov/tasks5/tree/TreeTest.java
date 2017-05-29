@@ -54,4 +54,33 @@ public class TreeTest {
         assertThat(tree.getLen(), is(7));
         assertThat(add, is(false));
     }
+    /**
+     * Testing not binary tree.
+     */
+    @Test
+    public void whenThereIsNodeWith2ChildsThenIsNotBinary() {
+        Tree<String> tree = new Tree<String>("1");
+        tree.add("1", "11");
+        tree.add("11", "111");
+        tree.add("11", "112");
+        tree.add("1", "12");
+        tree.add("12", "121");
+        tree.add("12", "122");
+        tree.add("12", "123");
+        assertThat(tree.isBinary(), is(false));
+    }
+    /**
+     * Testing binary tree.
+     */
+    @Test
+    public void whenThereNoNodeWithMoreThen2ChildsThenIsBinary() {
+        Tree<String> tree = new Tree<String>("1");
+        tree.add("1", "11");
+        tree.add("11", "111");
+        tree.add("11", "112");
+        tree.add("1", "12");
+        tree.add("12", "121");
+        tree.add("12", "122");
+        assertThat(tree.isBinary(), is(true));
+    }
 }

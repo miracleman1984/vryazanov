@@ -1,7 +1,7 @@
 package ru.vryazanov.tasks5.tree;
 
-import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -55,7 +55,7 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
          */
         Node(E value) {
             this.value = value;
-            this.children = new ArrayList<Node<E>>();
+            this.children = new LinkedList<Node<E>>();
         }
         /**
          * Return value of the node.
@@ -102,6 +102,7 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
         return parentNode == null ? false : true;
     }
 
+
     @Override
     public Iterator<E> iterator() {
         return null;
@@ -135,6 +136,41 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
      */
     public int getLen() {
         return len;
+    }
+    /**
+     * Return is this tree binary.
+     *
+     * @return true if this tree binary and false otherwise.
+     */
+    public boolean isBinary() {
+        return isBinary(rootNode);
+    }
+    /**
+     * Return is a tree from this node a binary.
+     *
+     * @param node current node
+     * @return true if this tree binary and false otherwise.
+     */
+    private boolean isBinary(Node<E> node) {
+        boolean result;
+        //берем текущую ноду
+        //проверяем ее на бинарность
+        if (node.getChildren().size() > 2) {
+            //если потомков больше 2  - возвращаем что дерево не бинарное
+            return false;
+        } else {
+            //если все с ней в порядке - проверяем детей
+            for (Node<E> noda : node.getChildren()) {
+                //рекурсивная проверка текущей ноды
+                result = isBinary(noda);
+                //если проверка показала наличие небинарной ноды - выходим из
+                if (!result) {
+                    return result;
+                }
+            }
+        }
+        return true;
+
     }
 
 }
