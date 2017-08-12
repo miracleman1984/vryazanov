@@ -27,6 +27,7 @@ public class ParserTest {
         assertThat(bookStore.getBook(1).getAsks().size(), is(1));
         assertThat(bookStore.getBook(1).getBids().size(), is(1));
     }
+
     /**
      * No deal if Sell orders are greate than Buy order.
      */
@@ -39,6 +40,7 @@ public class ParserTest {
         assertThat(bookStore.getBook(1).getAsks().size(), is(1));
         assertThat(bookStore.getBook(1).getBids().size(), is(1));
     }
+
     /**
      * No deal if Sell orders are greate than Buy order.
      */
@@ -52,6 +54,7 @@ public class ParserTest {
         assertThat(bookStore.getBook(1).getBids().size(), is(3));
         assertThat(bookStore.getBook(1).findBid(3).getVolume(), is(5));
     }
+
     /**
      * If Buy Is Less than Sells And Volume Buy Is Greater Then Deal.
      */
@@ -65,6 +68,7 @@ public class ParserTest {
         assertThat(bookStore.getBook(1).getBids().size(), is(1));
         assertThat(bookStore.getBook(1).findBid(1).getVolume(), is(14));
     }
+
     /**
      * If Equal Price Sell Then Deal With First.
      */
@@ -78,6 +82,7 @@ public class ParserTest {
         assertThat(bookStore.getBook(1).getBids().size(), is(1));
         assertThat(bookStore.getBook(1).findBid(1).getVolume(), is(50));
     }
+
     /**
      * If Equal Price Buy Then Deal With First.
      */
@@ -90,6 +95,7 @@ public class ParserTest {
         assertThat(bookStore.getBook(1).getAsks().size(), is(0));
         assertThat(bookStore.getBook(1).getBids().size(), is(2));
     }
+
     /**
      * If delete order new size should deacrease to 1.
      */
@@ -101,6 +107,7 @@ public class ParserTest {
         parser.start();
         assertThat(bookStore.getBook(2).getAsks().size(), is(1));
     }
+
     /**
      * Summarized print test.
      */
@@ -112,6 +119,7 @@ public class ParserTest {
         parser.start();
         bookStore.getBook(1).print();
     }
+
     /**
      * If two books should working correctly.
      */
@@ -129,9 +137,9 @@ public class ParserTest {
         assertThat(bookStore.getBook(2).getBids().size(), is(1));
         assertThat(bookStore.getBook(2).findBid(1).getVolume(), is(50));
     }
+
     /**
      * Time of processing big file.
-     *
      */
     @Test
     public void speedTest() {
