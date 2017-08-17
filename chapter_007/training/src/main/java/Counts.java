@@ -1,5 +1,3 @@
-import sun.awt.windows.ThemeReader;
-
 /**
  * Class  Counts.
  * <p>
