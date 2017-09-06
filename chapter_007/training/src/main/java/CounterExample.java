@@ -1,11 +1,15 @@
-import net.jcip.annotations.GuardedBy;
 import net.jcip.annotations.ThreadSafe;
 
 /**
- * Created by vr on 24.08.2017.
+ * Class  CounterExample.
+ * <p>
+ * class for demonstration of monitor and syncing
+ *
+ * @author vryazanov
+ * @version 1.0
+ * @since 06.09.2017
  */
 @ThreadSafe
-
 public class CounterExample {
 
     public static void main(String[] args) throws InterruptedException {

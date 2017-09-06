@@ -6,12 +6,5 @@ public class First implements Runnable {
         for (int i = 0; i < 10000; i++) {
             SharedObject.sharedVar1++ ;
         }
-
-
-//        try {
-//            Thread.sleep(1);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
     }
 }
