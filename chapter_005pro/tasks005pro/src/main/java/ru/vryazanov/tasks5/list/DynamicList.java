@@ -2,6 +2,7 @@ package ru.vryazanov.tasks5.list;
 
 
 import java.util.Arrays;
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -33,6 +34,8 @@ public class DynamicList<E> implements ListAnalogy<E> {
      */
     private int size;
 
+    private int modCount;
+
     /**
      * DynamicList constructor.
      *
@@ -54,7 +57,7 @@ public class DynamicList<E> implements ListAnalogy<E> {
     /**
      * Extend size of internal array.
      */
-    public void grow() {
+    private void grow() {
 
         objects = Arrays.copyOf(objects, 2 * size);
     }
@@ -65,7 +68,7 @@ public class DynamicList<E> implements ListAnalogy<E> {
      *
      * @param value adding value
      */
-    public void add(E value) {
+    public synchronized void add(E value) {
         // увеличение размера массива, если достигли предела
         if (index >= size) {
             grow();
@@ -79,7 +82,7 @@ public class DynamicList<E> implements ListAnalogy<E> {
      * @param position of array to be returned
      * @return element on the position.
      */
-    public E get(int position) {
+    public synchronized E get(int position) {
 
         return (E) this.objects[position - 1];
     }
@@ -90,7 +93,7 @@ public class DynamicList<E> implements ListAnalogy<E> {
      * @param position of array to be changed
      * @param newValue new value
      */
-    public void set(int position, E newValue) {
+    public synchronized void set(int position, E newValue) {
 
         this.objects[position - 1] = newValue;
     }
@@ -100,7 +103,7 @@ public class DynamicList<E> implements ListAnalogy<E> {
      *
      * @return current size of array.
      */
-    public int size() {
+    public synchronized int size() {
 
         return this.size;
     }
@@ -111,7 +114,7 @@ public class DynamicList<E> implements ListAnalogy<E> {
      * @param value that should be deleted
      * @return result of the operation true if at least one element was removed and false otherwise
      */
-    public boolean remove(E value) {
+    public synchronized boolean remove(E value) {
         boolean result = false;
         //todo: delete all objects with this value
         int count = 0;
@@ -123,7 +126,6 @@ public class DynamicList<E> implements ListAnalogy<E> {
                 result = true;
             }
         }
-
         return result;
     }
 
@@ -132,7 +134,7 @@ public class DynamicList<E> implements ListAnalogy<E> {
      *
      * @param position on which we should delete a value
      */
-    public void delete(int position) {
+    public synchronized void delete(int position) {
         //todo: delete object on the position
         System.arraycopy(this.objects, position, this.objects, position - 1, this.objects.length - position);
         index--;
@@ -157,6 +159,7 @@ public class DynamicList<E> implements ListAnalogy<E> {
          * Store current index to iterate.
          */
         private int cursor = 0;
+        int expectedModCount = modCount;
 
         @Override
         public boolean hasNext() {
@@ -165,6 +168,7 @@ public class DynamicList<E> implements ListAnalogy<E> {
 
         @Override
         public E next() {
+            checkForComodification();
             if (cursor >= size) {
                 throw new NoSuchElementException();
             }
@@ -172,14 +176,22 @@ public class DynamicList<E> implements ListAnalogy<E> {
         }
 
         @Override
-        public void remove() {
+        public synchronized void remove() {
             if (cursor == 0) {
                 throw new IllegalStateException();
             }
+            checkForComodification();
             System.arraycopy(objects, cursor, objects, cursor - 1, objects.length - cursor - 1);
             size--;
             cursor--;
         }
+
+        final void checkForComodification() {
+            if (modCount != expectedModCount)
+                throw new ConcurrentModificationException();
+        }
+
+
     }
 
     /**

@@ -1,7 +1,9 @@
 package ru.vryazanov.tasks5.list;
 
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  * DynamicLinkedList class
@@ -28,13 +30,15 @@ public class DynamicLinkedList<E> implements Iterable<E> {
      */
     private int size = 0;
 
+    private int modCount;
+
     /**
      * Add new element into the list.
      * And increase the size
      *
      * @param value adding value
      */
-    public void add(E value) {
+    public synchronized void add(E value) {
         //создаем новую ноду
         Node<E> newNode = new Node<E>(value, last, null);
         //если последней ячйки не существовало (null) - значит это первое добавление
@@ -57,7 +61,7 @@ public class DynamicLinkedList<E> implements Iterable<E> {
      * @param index of array to be returned
      * @return element on the position.
      */
-    public E get(int index) {
+    public synchronized E get(int index) {
         if (index > size) {
             throw new IndexOutOfBoundsException();
         }
@@ -80,14 +84,15 @@ public class DynamicLinkedList<E> implements Iterable<E> {
         return new Iterator<E>() {
             private Node<E> currentNode = first;
             private Node<E> previousNode;
+            private int expectedModCount = modCount;
 
             @Override
-            public boolean hasNext() {
+            public synchronized boolean hasNext() {
                 return currentNode != null;
             }
 
             @Override
-            public E next() {
+            public synchronized E next() {
                 E result = currentNode.item;
                 previousNode = currentNode;
                 currentNode = currentNode.next;
@@ -96,7 +101,7 @@ public class DynamicLinkedList<E> implements Iterable<E> {
 
             //удаляет текущий элемент - он существует
             @Override
-            public void remove() {
+            public synchronized void remove() {
                 // если последний элемент - у предпоследнего элемента зануляем следующий и объявляем его последним
                 if (!hasNext()) {
                     previousNode.next = null;
@@ -108,6 +113,11 @@ public class DynamicLinkedList<E> implements Iterable<E> {
                     currentNode.previous = previousNode;
                 }
                 size--;
+            }
+
+            final synchronized void checkForComodification() {
+                if (modCount != expectedModCount)
+                    throw new ConcurrentModificationException();
             }
         };
     }
