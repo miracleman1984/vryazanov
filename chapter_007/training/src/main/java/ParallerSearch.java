@@ -85,7 +85,9 @@ public class ParallerSearch extends Thread{
                             while ((l = inputStream.readLine())!= null) {
                                 if (!l.equals("")) {
                                     if (l.contains(text)) {
-                                        result.add(filePath);
+                                        synchronized (result) {
+                                            result.add(filePath);
+                                        }
                                         break;
                                     }
                                 }
