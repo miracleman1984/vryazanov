@@ -70,7 +70,7 @@ public class ParallerSearch extends Thread{
      * @param text text to find.
      * @param exts file extensions to search.
      */
-    public static void search(File file, String text, List<String> exts) {
+    public void search(File file, String text, List<String> exts) {
         for (final File fileEntry : file.listFiles()) {
             if (!fileEntry.isDirectory()) {
                 String filePath = fileEntry.getPath();
@@ -109,7 +109,7 @@ public class ParallerSearch extends Thread{
      *
      * @param dir directory to process
      */
-    public static void searchDirs(File dir) {
+    public void searchDirs(File dir) {
         dirs.add(dir);
         //проверить файл на соответствие расширениям
         for (final File fileEntry : dir.listFiles()) {
@@ -141,8 +141,6 @@ public class ParallerSearch extends Thread{
                 e.printStackTrace();
             }
         }
-
-
     }
 
 
