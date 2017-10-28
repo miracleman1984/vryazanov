@@ -4,7 +4,7 @@
 public class First implements Runnable {
     public void run() {
         for (int i = 0; i < 10000; i++) {
-            SharedObject.sharedVar1++ ;
+            SharedObject.sharedVar1++;
         }
     }
 }

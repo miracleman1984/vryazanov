@@ -3,7 +3,8 @@
  */
 public class Time implements Runnable {
     public void run() {
-        while((System.currentTimeMillis() - ProgramStop.startTime) <= ProgramStop.TIMELIMIT) {
+        while ((System.currentTimeMillis() - ProgramStop.START_TIME) <= ProgramStop.TIMELIMIT) {
+            int i = 1;
         }
     }
 }

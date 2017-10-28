@@ -9,7 +9,7 @@ public class Usage {
         final Object lock = new Object();
         static String name = "String";
 
-        public  synchronized void add(long value) {
+        public synchronized void add(long value) {
             this.count += value;
         }
 
@@ -23,6 +23,7 @@ public class Usage {
 
 
     }
+
     public static final class CounterThread extends Thread {
         protected final Counter counterA; //stack
         protected final Counter counterB; //stack
@@ -42,13 +43,13 @@ public class Usage {
     }
 
     public static void main(String[] args) throws InterruptedException {
-        for (int i = 0; i !=10 ; i++) {
+        for (int i = 0; i != 10; i++) {
             Counter counterA = new Counter(); //heap
             counterA.add(1);
             Counter counterB = new Counter(); //heap
             counterB.add(2);
             Thread threadA = new CounterThread(counterA, counterB); //heap
-            Thread threadB = new CounterThread(counterB,counterA); //heap
+            Thread threadB = new CounterThread(counterB, counterA); //heap
 
             threadA.start();
             threadB.start();

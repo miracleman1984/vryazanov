@@ -85,6 +85,7 @@ public class Counts {
         threadWords.start();
         threadDashes.start();
         while ((System.currentTimeMillis() - startTime) <= TIMELIMIT && (threadWords.isAlive() || threadDashes.isAlive())) {
+            int i = 1;
         }
         threadWords.interrupt();
         threadDashes.interrupt();

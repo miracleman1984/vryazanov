@@ -17,15 +17,15 @@ public class ParallerSearch extends Thread {
     /**
      * Internal storage for founded file paths.
      */
-    private final List<String> RESULT = new ArrayList<String>();
+    private final List<String> result = new ArrayList<String>();
     /**
      * Internal storage for work threads.
      */
-    private final List<Thread> THREADS = new ArrayList<Thread>();
+    private final List<Thread> threads = new ArrayList<Thread>();
     /**
      * Internal storage for directories to process.
      */
-    private final Queue<File> DIRS = new LinkedList<File>();
+    private final Queue<File> dirs = new LinkedList<File>();
     /**
      * Internal storage for initial directory to process.
      */
@@ -86,8 +86,8 @@ public class ParallerSearch extends Thread {
                             while ((l = inputStream.readLine()) != null) {
                                 if (!l.equals("")) {
                                     if (l.contains(text)) {
-                                        synchronized (RESULT) {
-                                            RESULT.add(filePath);
+                                        synchronized (result) {
+                                            result.add(filePath);
                                         }
                                         break;
                                     }
@@ -112,7 +112,7 @@ public class ParallerSearch extends Thread {
      * @param dir directory to process
      */
     public void searchDirs(File dir) {
-        DIRS.add(dir);
+        dirs.add(dir);
         //проверить файл на соответствие расширениям
         for (final File fileEntry : dir.listFiles()) {
             if (fileEntry.isDirectory()) {
@@ -126,17 +126,17 @@ public class ParallerSearch extends Thread {
     public void run() {
         File folder = new File(root);
         searchDirs(folder);
-        for (int i = 0; i < DIRS.size(); i++) {
-            THREADS.add(new Thread(new Runnable() {
+        for (int i = 0; i < dirs.size(); i++) {
+            threads.add(new Thread(new Runnable() {
                 public void run() {
-                    search(DIRS.poll(), text, exts);
+                    search(dirs.poll(), text, exts);
                 }
             }));
         }
-        for (Thread t : THREADS) {
+        for (Thread t : threads) {
             t.start();
         }
-        for (Thread t : THREADS) {
+        for (Thread t : threads) {
             try {
                 t.join();
             } catch (InterruptedException e) {
@@ -152,6 +152,6 @@ public class ParallerSearch extends Thread {
      * @return list of founded file paths
      */
     public List<String> result() {
-        return RESULT;
+        return result;
     }
 }

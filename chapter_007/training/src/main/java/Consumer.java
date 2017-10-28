@@ -14,8 +14,10 @@ public class Consumer extends Thread {
      * Store shared queue
      */
     private Queue<String> queue;
+
     /**
      * Consumer constructor/
+     *
      * @param queue shared queue
      */
     public Consumer(Queue<String> queue) {

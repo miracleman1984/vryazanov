@@ -28,7 +28,9 @@ public final class Counter {
 
     @Override
     public synchronized String toString() {
-        return "Counter{" +
-                "count=" + count + '}';
+        return "Counter{"
+                + "count="
+                + count
+                + '}';
     }
 }

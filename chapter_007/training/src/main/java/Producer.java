@@ -17,6 +17,7 @@ public class Producer extends Thread {
 
     /**
      * Producer constructor/
+     *
      * @param queue shared queue
      */
     public Producer(Queue<String> queue) {
@@ -33,9 +34,9 @@ public class Producer extends Thread {
             synchronized (queue) {
                 System.out.println(Thread.currentThread().getName() + " adding new element to job queue...");
                 queue.add(String.format("%s", i));
-                System.out.println(String.format("%s: %s added", Thread.currentThread().getName() ,i));
+                System.out.println(String.format("%s: %s added", Thread.currentThread().getName(), i));
                 System.out.println(Thread.currentThread().getName() + ": current queue: " + queue);
-                if (i%2 ==0) {
+                if (i % 2 == 0) {
                     System.out.println(Thread.currentThread().getName() + " notify Consumer to start its work");
                     queue.notify();
                 }

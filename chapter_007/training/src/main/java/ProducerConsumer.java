@@ -18,6 +18,7 @@ public class ProducerConsumer {
 
     /**
      * Main method.
+     *
      * @param args main args
      * @throws InterruptedException threads interruprion exeption.
      */
@@ -32,6 +33,7 @@ public class ProducerConsumer {
 
     /**
      * Return shared object
+     *
      * @return shared object
      */
     public Queue<String> getStrings() {
