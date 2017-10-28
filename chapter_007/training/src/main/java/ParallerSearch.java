@@ -17,15 +17,15 @@ public class ParallerSearch extends Thread {
     /**
      * Internal storage for founded file paths.
      */
-    static final List<String> RESULT = new ArrayList<String>();
+    private final List<String> RESULT = new ArrayList<String>();
     /**
      * Internal storage for work threads.
      */
-    static final List<Thread> THREADS = new ArrayList<Thread>();
+    private final List<Thread> THREADS = new ArrayList<Thread>();
     /**
      * Internal storage for directories to process.
      */
-    static final Queue<File> DIRS = new LinkedList<File>();
+    private final Queue<File> DIRS = new LinkedList<File>();
     /**
      * Internal storage for initial directory to process.
      */
