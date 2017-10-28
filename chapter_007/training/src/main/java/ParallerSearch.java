@@ -13,19 +13,19 @@ import java.util.Queue;
  * @version 1.0
  * @since 06.10.2017
  */
-public class ParallerSearch extends Thread{
+public class ParallerSearch extends Thread {
     /**
      * Internal storage for founded file paths.
      */
-    static final List<String> result = new ArrayList<String>();
+    static final List<String> RESULT = new ArrayList<String>();
     /**
      * Internal storage for work threads.
      */
-    static final List<Thread> threads = new ArrayList<Thread>();
+    static final List<Thread> THREADS = new ArrayList<Thread>();
     /**
      * Internal storage for directories to process.
      */
-    static final Queue<File> dirs = new LinkedList<File>();
+    static final Queue<File> DIRS = new LinkedList<File>();
     /**
      * Internal storage for initial directory to process.
      */
@@ -41,6 +41,7 @@ public class ParallerSearch extends Thread{
 
     /**
      * UserStorage constructor.
+     *
      * @param exts file extensions to search.
      * @param root initial directory to process.
      * @param text text to find.
@@ -75,18 +76,18 @@ public class ParallerSearch extends Thread{
             if (!fileEntry.isDirectory()) {
                 String filePath = fileEntry.getPath();
                 //проверить файл на соответствие расширениям
-                for (String s: exts) {
+                for (String s : exts) {
                     //если расширение совпало - запустить поиск по файлу
                     if (filePath.endsWith(s)) {
                         //найти текст внутри файла
                         try {
                             BufferedReader inputStream = new BufferedReader(new FileReader(filePath));
                             String l;
-                            while ((l = inputStream.readLine())!= null) {
+                            while ((l = inputStream.readLine()) != null) {
                                 if (!l.equals("")) {
                                     if (l.contains(text)) {
-                                        synchronized (result) {
-                                            result.add(filePath);
+                                        synchronized (RESULT) {
+                                            RESULT.add(filePath);
                                         }
                                         break;
                                     }
@@ -104,13 +105,14 @@ public class ParallerSearch extends Thread{
             }
         }
     }
+
     /**
      * Search files in the directory.
      *
      * @param dir directory to process
      */
     public void searchDirs(File dir) {
-        dirs.add(dir);
+        DIRS.add(dir);
         //проверить файл на соответствие расширениям
         for (final File fileEntry : dir.listFiles()) {
             if (fileEntry.isDirectory()) {
@@ -124,17 +126,17 @@ public class ParallerSearch extends Thread{
     public void run() {
         File folder = new File(root);
         searchDirs(folder);
-        for (int i = 0; i < dirs.size(); i++) {
-            threads.add(new Thread(new Runnable() {
+        for (int i = 0; i < DIRS.size(); i++) {
+            THREADS.add(new Thread(new Runnable() {
                 public void run() {
-                    search(dirs.poll(), text, exts);
+                    search(DIRS.poll(), text, exts);
                 }
             }));
         }
-        for (Thread t: threads) {
+        for (Thread t : THREADS) {
             t.start();
         }
-        for (Thread t: threads) {
+        for (Thread t : THREADS) {
             try {
                 t.join();
             } catch (InterruptedException e) {
@@ -150,6 +152,6 @@ public class ParallerSearch extends Thread{
      * @return list of founded file paths
      */
     public List<String> result() {
-        return result;
+        return RESULT;
     }
 }

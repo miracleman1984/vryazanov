@@ -1,5 +1,4 @@
-import net.jcip.annotations.GuardedBy;
-import net.jcip.annotations.ThreadSafe;
+
 
 /**
  * Class  Counter.
@@ -10,7 +9,7 @@ import net.jcip.annotations.ThreadSafe;
  * @version 1.0
  * @since 06.09.2017
  */
-@ThreadSafe
+
 public final class Counter {
     /**
      * Store counter.
@@ -22,13 +21,12 @@ public final class Counter {
      *
      * @return counter that was incremented
      */
-    @GuardedBy("this")
+
     public synchronized int incremant() {
         return ++this.count;
     }
 
     @Override
-    @GuardedBy("this")
     public synchronized String toString() {
         return "Counter{" +
                 "count=" + count + '}';
