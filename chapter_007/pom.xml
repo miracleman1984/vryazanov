@@ -13,6 +13,12 @@
     <packaging>pom</packaging>
     <modules>
         <module>training</module>
+        <module>Threads</module>
+        <module>Jmm</module>
+        <module>MonitorySynchronizy</module>
+        <module>WaitNotifyNotifyAll</module>
+        <module>NonBlockingAlgoritm</module>
+        <module>Bomberman</module>
     </modules>
 
 
