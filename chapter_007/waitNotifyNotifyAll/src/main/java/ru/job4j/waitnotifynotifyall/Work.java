@@ -1,3 +1,5 @@
+package ru.job4j.waitnotifynotifyall;
+
 /**
  * Class  Work.
  * <p>

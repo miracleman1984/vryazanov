@@ -1,4 +1,4 @@
-package ru.job4j.MonitorySynchronizy;
+package ru.job4j.monitorysynchronizy;
 
 /**
  * Class  CounterThread.

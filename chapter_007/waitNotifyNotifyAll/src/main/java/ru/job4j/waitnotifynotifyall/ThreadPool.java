@@ -1,3 +1,5 @@
+package ru.job4j.waitnotifynotifyall;
+
 import java.util.LinkedList;
 import java.util.Queue;
 

@@ -1,6 +1,4 @@
-package ru.job4j.MonitorySynchronizy;
-
-import jdk.nashorn.internal.runtime.OptimisticReturnFilters;
+package ru.job4j.monitorysynchronizy;
 
 /**
  * Created by vr on 23.08.2017.

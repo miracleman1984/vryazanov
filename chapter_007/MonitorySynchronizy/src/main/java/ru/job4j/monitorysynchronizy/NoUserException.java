@@ -1,4 +1,4 @@
-package ru.job4j.MonitorySynchronizy;
+package ru.job4j.monitorysynchronizy;
 
 /**
  * Created by vr on 07.09.2017.

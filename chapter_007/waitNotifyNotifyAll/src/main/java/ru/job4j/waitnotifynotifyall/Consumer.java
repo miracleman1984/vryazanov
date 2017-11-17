@@ -1,4 +1,4 @@
-package ru.job4j.WaitNotifyNotifyAll;
+package ru.job4j.waitnotifynotifyall;
 
 import java.util.Queue;
 

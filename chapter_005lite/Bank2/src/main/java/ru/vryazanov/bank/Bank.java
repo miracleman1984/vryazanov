@@ -16,10 +16,11 @@ public class Bank {
      * Store users and their bank accounts.
      */
     private Map<User, List<Account>> users;
+
     /**
      * Bank class constructor.
      *
-     * @param users  initial massive of users and accounts
+     * @param users initial massive of users and accounts
      */
     public Bank(Map<User, List<Account>> users) {
         this.users = users;
@@ -27,18 +28,18 @@ public class Bank {
 
     /**
      * Is user in bank database.
-     * @param user to search
      *
+     * @param user to search
      * @return true if user exists in database and false otherwise.
      */
     public boolean isUserExists(User user) {
         return users.containsKey(user);
     }
+
     /**
      * Add new user in thebank.
      *
      * @param user new user
-     *
      * @throws UserAlreadyExistsExeption if user already in bank database
      */
     public void addUser(User user) throws UserAlreadyExistsExeption {
@@ -50,11 +51,11 @@ public class Bank {
         }
 
     }
+
     /**
      * Delete new user from the bank database.
      *
      * @param user to delete
-     *
      * @throws UserNotExistsExeption if user not exists in  the bank database
      */
     public void deleteUser(User user) throws UserNotExistsExeption {
@@ -65,13 +66,13 @@ public class Bank {
             users.remove(user);
         }
     }
+
     /**
      * Add new account to the existing user.
      *
-     * @param user to which we want to add new account
+     * @param user    to which we want to add new account
      * @param account to add
-     *
-     * @throws UserNotExistsExeption if user not exists in  the bank database
+     * @throws UserNotExistsExeption        if user not exists in  the bank database
      * @throws AccountAlreadyExistsExeption if this account already exists for this user
      */
     public void addAccountToUser(User user, Account account) throws UserNotExistsExeption, AccountAlreadyExistsExeption {
@@ -84,13 +85,13 @@ public class Bank {
             users.get(user).add(account);
         }
     }
+
     /**
      * Delete account for the existing user.
      *
-     * @param user to which we want to delete account
+     * @param user    to which we want to delete account
      * @param account to delete
-     *
-     * @throws UserNotExistsExeption if user not exists in  the bank database
+     * @throws UserNotExistsExeption    if user not exists in  the bank database
      * @throws AccountNotExistsExeption if this account not exists for this user
      */
     public void deleteAccountFromUser(User user, Account account) throws UserNotExistsExeption, AccountNotExistsExeption {
@@ -103,6 +104,7 @@ public class Bank {
             users.get(user).remove(account);
         }
     }
+
     /**
      * Get all accounts for the existing user.
      *
@@ -120,14 +122,15 @@ public class Bank {
         }
         return result;
     }
+
     /**
      * Transfer money from one account to another.
      *
-     * @param srcUser user from which we want to get money account
+     * @param srcUser       user from which we want to get money account
      * @param srcRequisites account from which we want to get money
-     * @param dstUser user to whom we want to give money
+     * @param dstUser       user to whom we want to give money
      * @param dstRequisites account to which we want to give money
-     * @param amount of money to transfer
+     * @param amount        of money to transfer
      * @return is operation was finished successfully
      */
     public boolean transferMoney(User srcUser, long srcRequisites, User dstUser, long dstRequisites, long amount) {
@@ -164,7 +167,7 @@ public class Bank {
     /**
      * Get account from the user with this requisites.
      *
-     * @param user to search account
+     * @param user       to search account
      * @param requisites of the account
      * @return the account
      */

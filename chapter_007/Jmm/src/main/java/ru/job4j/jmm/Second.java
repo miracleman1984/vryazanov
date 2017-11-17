@@ -1,3 +1,5 @@
+package ru.job4j.jmm;
+
 /**
  * Created by vr on 21.08.2017.
  */
