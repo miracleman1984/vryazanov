@@ -42,7 +42,6 @@ public class ThreadPool {
         threads = new WorkerThread[threadsNumber];
         for (Thread thread : threads) {
             thread = new WorkerThread();
-            System.out.println(thread);
             thread.start();
         }
     }
@@ -77,6 +76,7 @@ public class ThreadPool {
                             System.out.println(e);
                         }
                     }
+                }
                     currentWork = works.poll();
                     if (currentWork != null) {
                         try {
@@ -85,7 +85,7 @@ public class ThreadPool {
                             e.printStackTrace();
                         }
                     }
-                }
+
             }
             System.out.println(Thread.currentThread().getName() + " is shutting down... ");
 
@@ -113,7 +113,6 @@ public class ThreadPool {
      * @param work to be added
      */
     public void add(Callable work) {
-        System.out.println(work);
         works.add(work);
         synchronized (lock) {
             lock.notifyAll();
@@ -133,25 +132,27 @@ public class ThreadPool {
         for (int j = 0; j < cores * 2; j++) {
             pool.add(new Callable<String>() {
                 public String call() {
-                    counter.incremant();
-                    System.out.println(Thread.currentThread().getName() + " is executing " + counter + " work.");
-                    System.out.println(Thread.currentThread().getName() + " is finished " + counter + " work.");
-                    return counter.toString();
+                    synchronized (counter) {
+                        counter.incremant();
+                        System.out.println(Thread.currentThread().getName() + " is executing " + counter + " work.");
+                        System.out.println(Thread.currentThread().getName() + " is finished " + counter + " work.");
+                        return counter.toString();
+                    }
                 }
             });
-            System.out.println(Thread.currentThread().getName());
         }
 
         for (int j = 0; j < cores * 2; j++) {
             pool.add(new Callable<String>() {
                 public String call() {
-                    counter.incremant();
-                    System.out.println(Thread.currentThread().getName() + " is executing " + counter + " work.");
-                    System.out.println(Thread.currentThread().getName() + " is finished " + counter + " work.");
-                    return counter.toString();
+                    synchronized (counter) {
+                        counter.incremant();
+                        System.out.println(Thread.currentThread().getName() + " is executing " + counter + " work.");
+                        System.out.println(Thread.currentThread().getName() + " is finished " + counter + " work.");
+                        return counter.toString();
+                    }
                 }
             });
-            System.out.println(Thread.currentThread().getName());
         }
         Thread.currentThread().sleep(5000);
         pool.shutdownNow();
