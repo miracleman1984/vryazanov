@@ -69,18 +69,21 @@ public class ThreadPool {
             // если задач нет, он приостанавливается
             // если во время приостановки он получил сигнал о добавлении задачи, он пробуждается и выполняет ее
             while (!isStopped) {
-                currentWork = works.poll();
-
-                if (currentWork != null) {
-                    try {
-                        currentWork.call();
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                synchronized (lock) {
+                    while (works.isEmpty()) {
+                        try {
+                            lock.wait();
+                        } catch (InterruptedException e) {
+                            System.out.println(e);
+                        }
                     }
-                } else {
-                    try {
-                        lock.wait();
-                    } catch (Exception ex) {
+                    currentWork = works.poll();
+                    if (currentWork != null) {
+                        try {
+                            currentWork.call();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             }
