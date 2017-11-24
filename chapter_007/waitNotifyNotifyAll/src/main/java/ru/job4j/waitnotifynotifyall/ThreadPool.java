@@ -1,7 +1,9 @@
 package ru.job4j.waitnotifynotifyall;
 
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.Callable;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Class  ThreadPool.
@@ -9,31 +11,97 @@ import java.util.Queue;
  * Class that illustrates thread pool work.
  *
  * @author vryazanov
- * @version 1.0
- * @since 29.10.2017
+ * @version 2.0
+ * @since 24.11.2017
  */
-public class ThreadPool extends Thread {
+public class ThreadPool {
 //    1. Инициализация пула должна быть по количеству ядер в системе.
-//    2. создать метод add(Work work).
+//    2. создать метод
 //    3. Если есть свободные треды, начать выполнение работы. если нет. то в очередь до появления свободного треда.
-    /**
-     * Store number of cores in the a running system.
-     */
-    static final int CORES = Runtime.getRuntime().availableProcessors();
     /**
      * Store executing threads
      */
-    private final Thread[] threads = new Thread[CORES];
+    private final WorkerThread[] threads;
     /**
      * Store queue of works
      */
-    private final Queue<Work> works = new LinkedList<Work>();
+    private final BlockingQueue<Callable> works = new LinkedBlockingQueue<Callable>();
+    /**
+     * Store flag of shutting threads in the  pool down
+     */
+    private boolean isStopped = false;
+    /**
+     * Store locking object
+     */
+    final Object lock = new Object();
 
     /**
      * ThreadPool constructor.
      */
-    public ThreadPool() {
-        this.setName("Thread Pool");
+    public ThreadPool(int threadsNumber) {
+        threads = new WorkerThread[threadsNumber];
+        for (Thread thread : threads) {
+            thread = new WorkerThread();
+            System.out.println(thread);
+            thread.start();
+        }
+    }
+
+    /**
+     * Class  WorkerThread.
+     * <p>
+     * Thread woth work logic.
+     * It starts, then poll work from query and execute it
+     * If nothing to do  - it waits for signal
+     * If there is a signal to stop thread then it stops.
+     */
+    private class WorkerThread extends Thread {
+        /*
+         * Store current thread work
+         */
+        private Callable currentWork;
+
+        /**
+         * Run method.
+         */
+        public void run() {
+            //пока ему не сказали остановиться, он выполняет задачи из очереди+
+            // если задач нет, он приостанавливается
+            // если во время приостановки он получил сигнал о добавлении задачи, он пробуждается и выполняет ее
+            while (!isStopped) {
+                currentWork = works.poll();
+
+                if (currentWork != null) {
+                    try {
+                        currentWork.call();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    try {
+                        lock.wait();
+                    } catch (Exception ex) {
+                    }
+                }
+            }
+            System.out.println(Thread.currentThread().getName() + " is shutting down... ");
+
+        }
+    }
+
+    /**
+     * Set flag to stop the thread.
+     */
+    public void shutdownNow() {
+        final ReentrantLock lock = new ReentrantLock();
+        lock.lock();
+        try {
+            isStopped = true;
+        } catch (Exception ex) {
+            System.out.println(ex);
+        } finally {
+            lock.unlock();
+        }
     }
 
     /**
@@ -41,35 +109,11 @@ public class ThreadPool extends Thread {
      *
      * @param work to be added
      */
-    public void add(Work work) {
-        synchronized (works) {
-            works.add(work);
-            works.notify();
-        }
-    }
-
-    /**
-     * Run method.
-     */
-    public void run() {
-        while (!this.isInterrupted()) {
-            synchronized (works) {
-                while (works.isEmpty()) {
-                    try {
-                        //Если есть свободные треды, начать выполнение работы. если нет. то в очередь до появления свободного треда.
-                        works.wait();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-                for (Thread t : threads) {
-                    if (t == null || !t.isAlive()) {
-                        t = new Thread(works.poll());
-                        t.start();
-                        break;
-                    }
-                }
-            }
+    public void add(Callable work) {
+        System.out.println(work);
+        works.add(work);
+        synchronized (lock) {
+            lock.notifyAll();
         }
     }
 
@@ -80,16 +124,33 @@ public class ThreadPool extends Thread {
      * @throws InterruptedException threads interruprion exeption
      */
     public static void main(String[] args) throws InterruptedException {
-        ThreadPool pool = new ThreadPool();
-        for (int i = 0; i < CORES * 2; i++) {
-            pool.add(new Work("work " + i));
+        final Counter counter = new Counter();
+        final int cores = Runtime.getRuntime().availableProcessors();
+        ThreadPool pool = new ThreadPool(cores);
+        for (int j = 0; j < cores * 2; j++) {
+            pool.add(new Callable<String>() {
+                public String call() {
+                    counter.incremant();
+                    System.out.println(Thread.currentThread().getName() + " is executing " + counter + " work.");
+                    System.out.println(Thread.currentThread().getName() + " is finished " + counter + " work.");
+                    return counter.toString();
+                }
+            });
+            System.out.println(Thread.currentThread().getName());
         }
-        pool.start();
-        for (int i = 0; i < CORES * 2; i++) {
-            pool.add(new Work("work " + i));
-            Thread.currentThread().sleep(500);
+
+        for (int j = 0; j < cores * 2; j++) {
+            pool.add(new Callable<String>() {
+                public String call() {
+                    counter.incremant();
+                    System.out.println(Thread.currentThread().getName() + " is executing " + counter + " work.");
+                    System.out.println(Thread.currentThread().getName() + " is finished " + counter + " work.");
+                    return counter.toString();
+                }
+            });
+            System.out.println(Thread.currentThread().getName());
         }
+        Thread.currentThread().sleep(5000);
+        pool.shutdownNow();
     }
-
-
 }
