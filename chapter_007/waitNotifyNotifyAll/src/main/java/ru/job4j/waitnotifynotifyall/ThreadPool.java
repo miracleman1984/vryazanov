@@ -21,7 +21,7 @@ public class ThreadPool {
     /**
      * Store executing threads
      */
-    private final WorkerThread[] threads;
+    private WorkerThread[] threads;
     /**
      * Store queue of works
      */
@@ -40,9 +40,13 @@ public class ThreadPool {
      */
     public ThreadPool(int threadsNumber) {
         threads = new WorkerThread[threadsNumber];
-        for (Thread thread : threads) {
-            thread = new WorkerThread();
-            thread.start();
+//        for (Thread thread : threads) {
+//            thread = new WorkerThread();
+//            thread.start();
+//        }
+        for (int i = 0; i < threadsNumber; i++) {
+            threads[i] = new WorkerThread();
+            threads[i].start();
         }
     }
 
@@ -68,23 +72,26 @@ public class ThreadPool {
             // если задач нет, он приостанавливается
             // если во время приостановки он получил сигнал о добавлении задачи, он пробуждается и выполняет ее
             while (!isStopped) {
-                synchronized (lock) {
-                    while (works.isEmpty()) {
+                    while (!isStopped && works.isEmpty()) {
                         try {
-                            lock.wait();
+                            synchronized (lock) {
+                                System.out.println(Thread.currentThread().getName() + " waiting");
+                                lock.wait();
+                                System.out.println(Thread.currentThread().getName() + " no waiting");
+                            }
                         } catch (InterruptedException e) {
                             System.out.println(e);
                         }
                     }
-                }
-                    currentWork = works.poll();
-                    if (currentWork != null) {
-                        try {
-                            currentWork.call();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+
+                currentWork = works.poll();
+                if (currentWork != null) {
+                    try {
+                        currentWork.call();
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
+                }
 
             }
             System.out.println(Thread.currentThread().getName() + " is shutting down... ");
@@ -96,15 +103,20 @@ public class ThreadPool {
      * Set flag to stop the thread.
      */
     public void shutdownNow() {
-        final ReentrantLock lock = new ReentrantLock();
-        lock.lock();
+        System.out.println("Starting shutdown");
+        final ReentrantLock lo1ck = new ReentrantLock();
+        lo1ck.lock();
         try {
             isStopped = true;
         } catch (Exception ex) {
             System.out.println(ex);
         } finally {
-            lock.unlock();
+            lo1ck.unlock();
         }
+        synchronized (lock) {
+            lock.notifyAll();
+        }
+
     }
 
     /**
@@ -129,6 +141,7 @@ public class ThreadPool {
         final Counter counter = new Counter();
         final int cores = Runtime.getRuntime().availableProcessors();
         ThreadPool pool = new ThreadPool(cores);
+
         for (int j = 0; j < cores * 2; j++) {
             pool.add(new Callable<String>() {
                 public String call() {
@@ -154,7 +167,7 @@ public class ThreadPool {
                 }
             });
         }
-        Thread.currentThread().sleep(5000);
+        Thread.currentThread().sleep(2000);
         pool.shutdownNow();
     }
 }
