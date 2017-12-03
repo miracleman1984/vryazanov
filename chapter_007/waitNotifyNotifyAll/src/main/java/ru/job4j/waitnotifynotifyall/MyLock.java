@@ -20,7 +20,6 @@ public class MyLock implements Lock {
     }
 
     public void  lock() {
-        System.out.println(Thread.currentThread().getName() + " inside locking logic and isLocked = " + isLocked);
         synchronized (lock) {
             while (isLocked) {
                 try {
@@ -31,24 +30,11 @@ public class MyLock implements Lock {
                     System.out.println(e);
                 }
             }
-            toLock();
         }
-
-        System.out.println(Thread.currentThread().getName() + " " + isLocked);
-        System.out.println(Thread.currentThread().getName() + " locking");
-    }
-
-    synchronized private void toLock() {
-        isLocked = true;
-        System.out.println(Thread.currentThread().getName() + " locked the object  islocked = " + isLocked);
-    }
-    private void toUnlock() {
-        isLocked = false;
         synchronized (lock) {
-            lock.notifyAll();
+            isLocked = true;
         }
     }
-
     public void lockInterruptibly() throws InterruptedException {
 
     }
@@ -63,9 +49,10 @@ public class MyLock implements Lock {
 
     public void unlock() {
         System.out.println(Thread.currentThread().getName() + " unlocking");
-        System.out.println(Thread.currentThread().getName() + " " + isLocked);
-        toUnlock();
-        System.out.println(Thread.currentThread().getName() + " " + isLocked);
+        isLocked = false;
+        synchronized (lock) {
+            lock.notifyAll();
+        }
     }
 
     public Condition newCondition() {
@@ -77,7 +64,7 @@ public class MyLock implements Lock {
     public static void main(String[] args) {
         final SharedObject s = new SharedObject();
         final MyLock l = new MyLock();
-        Thread[] th = new Thread[5];
+        Thread[] th = new Thread[2];
 
         Runnable r = new Runnable() {
             public void run() {
@@ -95,10 +82,10 @@ public class MyLock implements Lock {
 
             }
         };
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 2; i++) {
             th[i] = new Thread(r);
         }
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 2; i++) {
             th[i].start();
         }
 

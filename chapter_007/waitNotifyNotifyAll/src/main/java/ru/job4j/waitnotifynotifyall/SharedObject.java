@@ -12,8 +12,6 @@ public class SharedObject {
     }
 
     public void setVar(String var) throws InterruptedException {
-        System.out.println(l);
-        System.out.println(Thread.currentThread().getName() + " inside lock");
         System.out.println("Setting var to " + var);
         this.var = var;
         System.out.println(Thread.currentThread().getName() + " starting to wait 1s.");
