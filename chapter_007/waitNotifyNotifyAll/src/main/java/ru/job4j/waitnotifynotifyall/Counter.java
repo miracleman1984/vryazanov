@@ -22,8 +22,12 @@ public class Counter {
      * @return counter that was incremented
      */
 
-    public synchronized int incremant() {
-        return ++this.count;
+    public synchronized int incremant() throws InterruptedException {
+        ++this.count;
+        System.out.println(Thread.currentThread().getName() + " is executing " + this.count + " work.");
+        Thread.currentThread().sleep(1000);
+        System.out.println(Thread.currentThread().getName() + " is finished " + this.count + " work.");
+        return this.count;
     }
 
     @Override

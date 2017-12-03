@@ -44,7 +44,9 @@ public class MyLock implements Lock {
     }
     private void toUnlock() {
         isLocked = false;
-        lock.notifyAll();
+        synchronized (lock) {
+            lock.notifyAll();
+        }
     }
 
     public void lockInterruptibly() throws InterruptedException {

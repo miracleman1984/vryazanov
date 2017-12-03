@@ -40,10 +40,6 @@ public class ThreadPool {
      */
     public ThreadPool(int threadsNumber) {
         threads = new WorkerThread[threadsNumber];
-//        for (Thread thread : threads) {
-//            thread = new WorkerThread();
-//            thread.start();
-//        }
         for (int i = 0; i < threadsNumber; i++) {
             threads[i] = new WorkerThread();
             threads[i].start();
@@ -72,7 +68,7 @@ public class ThreadPool {
             // если задач нет, он приостанавливается
             // если во время приостановки он получил сигнал о добавлении задачи, он пробуждается и выполняет ее
             while (!isStopped) {
-                    while (!isStopped && works.isEmpty()) {
+                    while (works.isEmpty() && !isStopped) {
                         try {
                             synchronized (lock) {
                                 System.out.println(Thread.currentThread().getName() + " waiting");
@@ -104,17 +100,8 @@ public class ThreadPool {
      */
     public void shutdownNow() {
         System.out.println("Starting shutdown");
-        final ReentrantLock lo1ck = new ReentrantLock();
-        lo1ck.lock();
-        try {
-            isStopped = true;
-
-        } catch (Exception ex) {
-            System.out.println(ex);
-        } finally {
-            lo1ck.unlock();
-        }
         synchronized (lock) {
+            isStopped = true;
             lock.notifyAll();
         }
 
@@ -126,6 +113,7 @@ public class ThreadPool {
      * @param work to be added
      */
     public void add(Callable work) {
+        System.out.println("Added new work! Notify All Threads!");
         works.add(work);
         synchronized (lock) {
             lock.notifyAll();
@@ -143,32 +131,28 @@ public class ThreadPool {
         final int cores = Runtime.getRuntime().availableProcessors();
         ThreadPool pool = new ThreadPool(cores);
 
-        for (int j = 0; j < cores * 2; j++) {
+        for (int j = 0; j < cores ; j++) {
             pool.add(new Callable<String>() {
-                public String call() {
-                    synchronized (counter) {
-                        counter.incremant();
-                        System.out.println(Thread.currentThread().getName() + " is executing " + counter + " work.");
-                        System.out.println(Thread.currentThread().getName() + " is finished " + counter + " work.");
-                        return counter.toString();
-                    }
-                }
-            });
-        }
+                public String call() throws InterruptedException {
 
-        for (int j = 0; j < cores * 2; j++) {
-            pool.add(new Callable<String>() {
-                public String call() {
-                    synchronized (counter) {
                         counter.incremant();
-                        System.out.println(Thread.currentThread().getName() + " is executing " + counter + " work.");
-                        System.out.println(Thread.currentThread().getName() + " is finished " + counter + " work.");
-                        return counter.toString();
-                    }
+                       return counter.toString();
+
                 }
             });
         }
-        Thread.currentThread().sleep(2000);
+        Thread.currentThread().sleep(5000);
+        for (int j = 0; j < cores ; j++) {
+            pool.add(new Callable<String>() {
+                public String call() throws InterruptedException {
+
+                        counter.incremant();
+                        return counter.toString();
+
+                }
+            });
+        }
+        Thread.currentThread().sleep(10000);
         pool.shutdownNow();
     }
 }
