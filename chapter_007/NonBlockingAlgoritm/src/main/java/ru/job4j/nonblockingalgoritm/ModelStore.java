@@ -3,23 +3,41 @@ package ru.job4j.nonblockingalgoritm;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Created by vvryazanov on 04.12.2017.
+ * Class  ModelStore.
+ * <p>
+ * Class for store model objects.
+ *
+ * @author vryazanov
+ * @version 1.0
+ * @since 05.12.2017
  */
 public class ModelStore {
+    /**
+     * Store model objects
+     */
     ConcurrentHashMap<Integer, Model> modelStore = new ConcurrentHashMap<Integer, Model>();
 
+    /**
+     * Add new model to store
+     *
+     * @param key   appropriate to the model
+     * @param model to add
+     */
     public void add(int key, Model model) {
         modelStore.put(key, model);
     }
 
+    /**
+     * Update model in store by key.
+     *
+     * @param key
+     * @param newModel
+     */
     public void update(int key, final Model newModel) {
-
         modelStore.computeIfPresent(key, (k, v) -> {
-            System.out.println(k + "  " + v + Thread.currentThread().getName());
             newModel.setVersion(v.getVersion() + 1);
             if (newModel.getVersion() - 1 == v.getVersion()) {
                 v = newModel;
-                System.out.println(Thread.currentThread().getName() + " has changed version to " + v.getVersion());
                 return v;
             } else {
                 throw new OptimisticException(newModel.getVersion() - 1, v.getVersion());
@@ -28,25 +46,40 @@ public class ModelStore {
         });
     }
 
+    /**
+     * Delete model from the store by key
+     *
+     * @param key
+     * @return model that was deleted
+     */
     public Model delete(int key) {
         return modelStore.remove(key);
     }
 
-
+    /**
+     * Return model from store by the key.
+     *
+     * @param key
+     * @return model by the key
+     */
     public Model get(int key) {
         return modelStore.get(key);
     }
 
+    /**
+     * Main method
+     *
+     * @param args appropriate args
+     */
     public static void main(String[] args) {
         ModelStore modelStore = new ModelStore();
-        modelStore.add(1, new Model("first"));
-        ;
+        for (int i = 0; i < 50; i++) {
+            modelStore.add(i, new Model("first"));
+        }
         Runnable r1 = new Runnable() {
             @Override
             public void run() {
-                System.out.println("Before " + modelStore.get(1) + "  " + Thread.currentThread().getName());
-                modelStore.update(1, new Model("1"));
-                System.out.println("After " + modelStore.get(1) + "  " + Thread.currentThread().getName());
+                modelStore.update(5, new Model("1"));
             }
         };
         Runnable r2 = new Runnable() {
@@ -57,54 +90,18 @@ public class ModelStore {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                System.out.println("Before " + modelStore.get(1) + "  " + Thread.currentThread().getName());
-                modelStore.update(1, new Model("2"));
-                System.out.println("After " + modelStore.get(1) + "  " + Thread.currentThread().getName());
+                modelStore.update(5, new Model("2"));
+
             }
         };
 
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 10000; i++) {
             new Thread(r1).start();
         }
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 10000; i++) {
             new Thread(r2).start();
         }
 
-//        new Thread() {
-//            @Override
-//            public void run() {
-//                modelStore.update(1, new Model("1"));
-//                System.out.println(modelStore.get(1) + "  " + Thread.currentThread().getName());
-//            }
-//        }.start();
-//        new Thread() {
-//            @Override
-//            public void run() {
-//                modelStore.update(1, new Model("2"));
-//                System.out.println(modelStore.get(1) + "  " + Thread.currentThread().getName());
-//            }
-//        }.start();
-//        new Thread() {
-//            @Override
-//            public void run() {
-//                modelStore.update(1, new Model("3"));
-//                System.out.println(modelStore.get(1) + "  " + Thread.currentThread().getName());
-//            }
-//        }.start();
-//        new Thread() {
-//            @Override
-//            public void run() {
-//                modelStore.update(1, new Model("4"));
-//                System.out.println(modelStore.get(1) + "  " + Thread.currentThread().getName());
-//            }
-//        }.start();
-//        new Thread() {
-//            @Override
-//            public void run() {
-//                modelStore.update(1, new Model("5"));
-//                System.out.println(modelStore.get(1) + "  " + Thread.currentThread().getName());
-//            }
-//        }.start();
 
     }
 }
