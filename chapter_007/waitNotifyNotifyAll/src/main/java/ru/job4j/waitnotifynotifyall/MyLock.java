@@ -7,7 +7,7 @@ import java.util.concurrent.locks.Lock;
 /**
  * Created by vvryazanov on 24.11.2017.
  */
-public class MyLock implements Lock {
+public class MyLock {
     private Object lock = new Object();
     private Boolean isLocked = false;
 
@@ -25,46 +25,27 @@ public class MyLock implements Lock {
                 try {
                     System.out.println(String.format("%s wait", Thread.currentThread().getName()));
                     lock.wait();
-
                 } catch (InterruptedException e) {
                     System.out.println(e);
                 }
             }
-        }
-        synchronized (lock) {
             isLocked = true;
         }
     }
-    public void lockInterruptibly() throws InterruptedException {
-
-    }
-
-    public boolean tryLock() {
-        return false;
-    }
-
-    public boolean tryLock(long time, TimeUnit unit) throws InterruptedException {
-        return false;
-    }
 
     public void unlock() {
+        synchronized (lock) {
         System.out.println(Thread.currentThread().getName() + " unlocking");
         isLocked = false;
-        synchronized (lock) {
             lock.notifyAll();
         }
     }
-
-    public Condition newCondition() {
-        return null;
-    }
-
 
 
     public static void main(String[] args) {
         final SharedObject s = new SharedObject();
         final MyLock l = new MyLock();
-        Thread[] th = new Thread[2];
+        Thread[] th = new Thread[5];
 
         Runnable r = new Runnable() {
             public void run() {
@@ -82,10 +63,10 @@ public class MyLock implements Lock {
 
             }
         };
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 5; i++) {
             th[i] = new Thread(r);
         }
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 5; i++) {
             th[i].start();
         }
 
