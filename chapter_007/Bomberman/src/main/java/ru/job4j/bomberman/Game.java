@@ -24,6 +24,10 @@ public class Game {
     final private ReentrantLock[][] board;
     final private byte[][] boardWithBlocks;
     /**
+     * Is this unit thread have to be stopped
+     */
+    private boolean isStopped = false;
+    /**
      * Game units.
      */
     final private ArrayList<Unit> monsters = new ArrayList<Unit>();
@@ -66,6 +70,7 @@ public class Game {
         System.out.println("Number of blocks = " + blocksNumber);
         Cell heroCell = genBoardCell();
         hero = new Hero("H", heroCell.getxCoord(), heroCell.getyCoord(), this);
+        System.out.println("Hero: " + hero.getxCoord() + " " + hero.getyCoord() );
         for (int i = 0; i < blocksNumber ; i++) {
             setBlock();
         }
@@ -97,6 +102,7 @@ public class Game {
         for (Unit unit : monsters) {
             unit.setStopped(true);
         }
+        this.setStopped(true);
     }
 
     /**
@@ -138,6 +144,7 @@ public class Game {
     private void setBlock() {
         String name = "Monster " + ThreadLocalRandom.current().nextInt(0, 500);
         Cell blockCell = genBoardCell();
+        System.out.println("Block:" + blockCell.getxCoord() + " " + hero.getyCoord());
         boardWithBlocks[blockCell.getxCoord()][blockCell.getyCoord()] = 1;
     }
 
@@ -147,11 +154,15 @@ public class Game {
      */
     private void start() throws InterruptedException {
         hero.start();
+
         for (Unit unit : monsters) {
             unit.start();
         }
         for (int i = 0; i < 20; i++) {
             printBoard();
+            if (this.isStopped) {
+                break;
+            }
             Thread.currentThread().sleep(1000);
         }
     }
@@ -162,7 +173,7 @@ public class Game {
             for (int b = 0; b < boardWithBlocks[0].length; b++) {
                 if (this.board[a][b].isLocked() == true) {
                     for (Unit unit : monsters) {
-                        if (unit.xCoord == a && unit.getyCoord() ==b ) {
+                        if (unit.xCoord == a && unit.getyCoord() == b ) {
                             System.out.print(" " + unit.getName() + " ");
                             break;
                         }
@@ -203,5 +214,9 @@ public class Game {
 
     public Unit getHero() {
         return hero;
+    }
+
+    public synchronized void setStopped(boolean stopped) {
+        isStopped = stopped;
     }
 }

@@ -127,13 +127,19 @@ public abstract class Unit extends Thread {
         return testMove(nextCell, false) ? nextCell : null;
     }
 
+    private void move(Cell to) throws CantMoveException {
+        int newX = to.getxCoord();
+        int newY = to.getyCoord();
+        if (to == null) {
+            System.out.println(Thread.currentThread().getName() + ": null!!!!! Не могу никуда двигаться! Останавливаю поток!");
+            isStopped = true;
+            throw new CantMoveException("");
+        }
+
+    }
+
     @Override
     public void run() {
-        try {
-            Thread.currentThread().sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         if (autoMoving == true) {
             board[xCoord][yCoord].lock();
             //System.out.println(Thread.currentThread().getName() + " acqired the cell X = " + yCoord + " Y = " + xCoord + " and trying to move to the next cell ");
@@ -144,37 +150,42 @@ public abstract class Unit extends Thread {
             try {
                 while (!isStopped) {
                     nextCell = genNextCell(xCoord, yCoord);
-                    try {
-                        newX = nextCell.getxCoord();
-                        newY = nextCell.getyCoord();
-                    } catch (NullPointerException ep) {
-                        ep.printStackTrace();
-                        System.out.println(Thread.currentThread().getName() + " cell X = " + newY + " Y = " + newX + " ... waiting for 1s ");
+                    if (nextCell == null) {
+                        System.out.println("null!!!!!  " + Thread.currentThread().getName());
+                        isStopped = true;
+                        break;
                     }
+                    move(nextCell);
+
 
                     //залочить текущую ячейку
                     //сгенерировать следующую ячейку
-                    if (board[newX][newY].tryLock(500, TimeUnit.MILLISECONDS)) {
-                            board[xCoord][yCoord].unlock();
-                            //System.out.println(Thread.currentThread().getName() + " acqired the cell X = " + newY + " Y = " + newX + " ... waiting for 1s ");
-                            xCoord = newX;
-                            yCoord = newY;
-                            //если да, то ждем 1000мс
-                            //System.out.println(Thread.currentThread().getName() + "  sleeping");
-                            try {
-                                Thread.currentThread().sleep(1000);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                    } else if (game.getHero().getxCoord() == newX && game.getHero().getyCoord() == newY){
+                    if (board[newX][newY].isLocked() && board[newX][newY].toString().contains(game.getHero().getName())) {
                         //в этой ячейке герой!
-                        System.out.println("intersection on cell X = " + yCoord + " Y = " + xCoord + " it's game over ='(");
+                        System.out.println(game.getHero().getxCoord() + " " + game.getHero().getxCoord());
+                        System.out.println(board[newX][newY].toString().contains(game.getHero().getName()) + "  " + Thread.currentThread().getName() );
+                        System.out.println("intersection on cell X = " + newY + " Y = " + newX + " it's game over ='(");
                         game.stop();
+                        break;
                         //System.out.println(Thread.currentThread().getName() + " failed acqired the cell X = " + newY + " Y = " + newX + " ... regenerating new coords ");
+                    } else if (board[newX][newY].tryLock(500, TimeUnit.MILLISECONDS)){
+                        board[xCoord][yCoord].unlock();
+                        //System.out.println(Thread.currentThread().getName() + " acqired the cell X = " + newY + " Y = " + newX + " ... waiting for 1s ");
+                        xCoord = newX;
+                        yCoord = newY;
+                        //если да, то ждем 1000мс
+                        //System.out.println(Thread.currentThread().getName() + "  sleeping");
+                        try {
+                            Thread.currentThread().sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             } catch (InterruptedException e) {
                 board[newX][newY].unlock();
+                e.printStackTrace();
+            } catch (CantMoveException e) {
                 e.printStackTrace();
             }
         } else {
@@ -187,6 +198,7 @@ public abstract class Unit extends Thread {
                     if (!board[nextCell.getxCoord()][nextCell.getyCoord()].tryLock()) {
                         System.out.println("You are on the same cell with monster");
                         game.stop();
+                        break;
                     } else {
                         board[xCoord][yCoord].unlock();
                         xCoord = nextCell.getxCoord();
@@ -236,7 +248,7 @@ public abstract class Unit extends Thread {
                 nextCell = goUp();
                 if (nextCell != null) {
                     if (!board[nextCell.getxCoord()][nextCell.getyCoord()].tryLock()) {
-                        System.out.println("You are on the same cell with monster");
+                        System.out.println("You are on the same cell with monster" + board[nextCell.getxCoord()][nextCell.getyCoord()] );
                         game.stop();
                     } else {
                         board[xCoord][yCoord].unlock();
